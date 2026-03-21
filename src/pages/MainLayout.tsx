@@ -88,6 +88,32 @@ export const MainLayout = () => {
           )}
         </nav>
       </header>
+      <footer className="border-t bg-gray-900 border-t border-gray-800">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <p className="text-xs text-gray-300 leading-relaxed">
+              © 2026 BookBoxd Limited. Made by fans in{" "}
+              <span className="line-through text-gray-400">Minsk</span>{" "}
+              <span className="text-gray-400">Mensk</span>, Belarus. Book data
+              from{" "}
+              <a
+                href="https://developers.google.com/books"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-gray-600 transition-colors underline decoration-dotted underline-offset-2"
+              >
+                Google books API
+              </a>
+              .{" "}
+            </p>
+
+            <p className="text-xs text-gray-200 italic leading-relaxed">
+              and Modern Romance. the hood on the Academy's new award.{" "}
+              spectacularly niche moments in this season's literature.
+            </p>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };
