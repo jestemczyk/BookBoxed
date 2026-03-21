@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 
 export const MainLayout = () => {
   const location = useLocation();
@@ -88,6 +88,9 @@ export const MainLayout = () => {
           )}
         </nav>
       </header>
+      <main className="flex-grow container mx-auto px-4 py-8">
+        <Outlet />
+      </main>
       <footer className="border-t bg-gray-900 border-t border-gray-800">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center max-w-3xl mx-auto space-y-3">
