@@ -1,1 +1,60 @@
-export const FILTERS = ["YEAR", "RATING", "POPULAR", "GENRE", "OTHER"];
+export const FILTERS = [
+  {
+    title: "YEAR",
+    options: [
+      "2020s",
+      "2010s",
+      "2000s",
+      "1990s",
+      "1980s",
+      "1970s",
+      "1960s",
+      "1950s",
+      "1940s",
+      "later",
+    ],
+  },
+  {
+    title: "RATING",
+    options: ["9+", "8-9", "7-8", "6-7", "5-6", "4-5", "3-4", "below 3"],
+  },
+  {
+    title: "POPULAR",
+    options: [
+      "Most Popular",
+      "Trending",
+      "Best Sellers",
+      "Most Discussed",
+      "Recently Added",
+    ],
+  },
+  {
+    title: "GENRE",
+    options: [
+      "Fiction",
+      "Non-Fiction",
+      "Science Fiction",
+      "Fantasy",
+      "Mystery",
+      "Thriller",
+      "Romance",
+      "Biography",
+      "History",
+      "Self-Help",
+      "Poetry",
+      "Children's",
+    ],
+  },
+  {
+    title: "OTHER",
+    options: [
+      "New Releases",
+      "Coming Soon",
+      "Award Winners",
+      "Staff Picks",
+      "Free Books",
+      "Audio Books",
+      "E-books",
+    ],
+  },
+];
