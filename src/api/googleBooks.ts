@@ -11,6 +11,15 @@ export interface Book {
     categories: string[];
 }
 
+const getBetterThumbnail = (thumbnailUrl: string) => {
+    if (!thumbnailUrl) return "";
+
+    return thumbnailUrl
+        .replace("&edge=curl", "")
+        .replace("zoom=1", "zoom=3")
+        .replace("&zoom=1", "&zoom=3");
+};
+
 export const getRandomBooks = async (maxResults: number = 20) => {
     try {
         const response = await fetch(
@@ -25,7 +34,9 @@ export const getRandomBooks = async (maxResults: number = 20) => {
             id: item.id,
             title: item.volumeInfo.title || "Без названия",
             authors: item.volumeInfo.authors || ["Автор не указан"],
-            thumbnail: item.volumeInfo.imageLinks?.thumbnail || "",
+            thumbnail: getBetterThumbnail(
+                item.volumeInfo.imageLinks?.thumbnail || "",
+            ),
             publishedDate: item.volumeInfo.publishedDate || "Дата не указана",
             description: item.volumeInfo.description || "Описание отсутствует",
             pageCount: item.volumeInfo.pageCount || 0,

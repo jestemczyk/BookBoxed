@@ -55,7 +55,7 @@ export const BooksComponent: React.FC = () => {
                         <img
                             src={book.thumbnail}
                             alt={book.title}
-                            className="w-full h-48 object-cover"
+                            className="w-full h-80 object-cover"
                         />
                     ) : (
                         <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
