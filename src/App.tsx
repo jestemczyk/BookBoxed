@@ -9,19 +9,19 @@ import { SignIn } from "./pages/SignIn";
 import { Route, Routes } from "react-router";
 
 function App() {
-  return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route index element={<Home />} />
-        <Route path="/books" element={<Books />} />
-        <Route path="/book-shelves" element={<Bookshelves />} />
-        <Route path="/book-shelves/:shelfId" element={<Bookshelve />} />
-        <Route path="/book/:bookId" element={<Book />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/sign-in" element={<SignIn />} />
-      </Route>
-    </Routes>
-  );
+    return (
+        <Routes>
+            <Route element={<MainLayout />}>
+                <Route index element={<Home />} />
+                <Route path="/books" element={<Books />} />
+                <Route path="/book-shelves" element={<Bookshelves />} />
+                <Route path="/book-shelves/:shelfId" element={<Bookshelve />} />
+                <Route path="/book/:bookId" element={<Book />} />
+                <Route path="/registration" element={<Registration />} />
+                <Route path="/sign-in" element={<SignIn />} />
+            </Route>
+        </Routes>
+    );
 }
 
 export default App;
