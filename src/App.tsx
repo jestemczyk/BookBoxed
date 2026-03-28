@@ -1,4 +1,3 @@
-import "./App.css";
 import { MainLayout } from "./pages/MainLayout";
 import { Home } from "./pages/Home";
 import { Books } from "./pages/Books";
