@@ -1,4 +1,4 @@
-import { getRandomBooks, type Book } from "@/api/googleBooks";
+import { getBooks, type Book } from "@/api/googleBooks";
 import { useEffect, useState } from "react";
 
 export const BooksComponent: React.FC = () => {
@@ -10,7 +10,7 @@ export const BooksComponent: React.FC = () => {
         const loadBooks = async () => {
             try {
                 setLoading(true);
-                const booksData = await getRandomBooks(20);
+                const booksData = await getBooks(20, "");
                 setBooks(booksData);
                 setError("");
             } catch (err) {
@@ -25,11 +25,7 @@ export const BooksComponent: React.FC = () => {
     }, []);
 
     if (loading) {
-        return (
-            <div className="text-center py-8 text-gray-500">
-                Загрузка книг...
-            </div>
-        );
+        return <div className="text-center py-8 text-gray-500">Loading...</div>;
     }
 
     if (error) {
@@ -38,9 +34,7 @@ export const BooksComponent: React.FC = () => {
 
     if (books.length === 0) {
         return (
-            <div className="text-center py-8 text-gray-500">
-                Книги не найдены
-            </div>
+            <div className="text-center py-8 text-gray-500">Find a book</div>
         );
     }
 
@@ -49,7 +43,7 @@ export const BooksComponent: React.FC = () => {
             {books.map((book) => (
                 <div
                     key={book.id}
-                    className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                    className="border border-gray-200 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow"
                 >
                     {book.thumbnail ? (
                         <img

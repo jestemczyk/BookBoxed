@@ -20,10 +20,10 @@ const getBetterThumbnail = (thumbnailUrl: string) => {
         .replace("&zoom=1", "&zoom=3");
 };
 
-export const getRandomBooks = async (maxResults: number = 20) => {
+export const getBooks = async (maxResults: number = 20, query: string) => {
     try {
         const response = await fetch(
-            `${BASE_URL}/volumes?q=a&maxResults=${maxResults}&orderBy=relevance`,
+            `${BASE_URL}/volumes?q=${query}&maxResults=${maxResults}&orderBy=newest`,
         );
         const data = await response.json();
 
@@ -32,13 +32,13 @@ export const getRandomBooks = async (maxResults: number = 20) => {
         }
         const books: Book[] = data.items.map((item: any) => ({
             id: item.id,
-            title: item.volumeInfo.title || "Без названия",
-            authors: item.volumeInfo.authors || ["Автор не указан"],
+            title: item.volumeInfo.title || "No name",
+            authors: item.volumeInfo.authors || ["Unknown author"],
             thumbnail: getBetterThumbnail(
                 item.volumeInfo.imageLinks?.thumbnail || "",
             ),
-            publishedDate: item.volumeInfo.publishedDate || "Дата не указана",
-            description: item.volumeInfo.description || "Описание отсутствует",
+            publishedDate: item.volumeInfo.publishedDate || "Unknown date",
+            description: item.volumeInfo.description || "No description",
             pageCount: item.volumeInfo.pageCount || 0,
             categories: item.volumeInfo.categories || [],
         }));
