@@ -15,7 +15,7 @@ export const BooksComponent: React.FC = () => {
                 setBooks(booksData);
                 setError("");
             } catch (err) {
-                setError("Не удалось загрузить книги");
+                setError("Failed to load books");
                 console.error(err);
             } finally {
                 setLoading(false);
