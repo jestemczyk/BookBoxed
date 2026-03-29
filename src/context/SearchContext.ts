@@ -10,7 +10,7 @@ interface booksContextType {
 export const SearchContext = createContext<booksContextType | undefined>(
     undefined,
 );
-export const useSearch = () => {
+export const useSearchContext = () => {
     const context = useContext(SearchContext);
     if (!context) {
         throw new Error("useBooks must be used within BooksProvider");

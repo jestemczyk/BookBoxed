@@ -1,16 +1,17 @@
 import { getPopularBooks, type Book } from "@/api/openLibrary";
 import { useEffect, useState } from "react";
 import { BookMiniCard } from "./BookMiniCard";
+import { useSearchContext } from "@/context/SearchContext";
 
 export const BooksComponent: React.FC = () => {
     const [books, setBooks] = useState<Book[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>("");
+    const { isLoading, setIsLoading } = useSearchContext();
 
     useEffect(() => {
         const loadBooks = async () => {
             try {
-                setLoading(true);
+                setIsLoading(true);
                 const booksData = await getPopularBooks();
                 setBooks(booksData);
                 setError("");
@@ -18,14 +19,14 @@ export const BooksComponent: React.FC = () => {
                 setError("Failed to load books");
                 console.error(err);
             } finally {
-                setLoading(false);
+                setIsLoading(false);
             }
         };
 
         loadBooks();
     }, []);
 
-    if (loading) {
+    if (isLoading) {
         return <div className="text-center py-8 text-gray-500">Loading...</div>;
     }
 
