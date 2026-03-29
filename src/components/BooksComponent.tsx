@@ -10,7 +10,7 @@ export const BooksComponent: React.FC = () => {
         const loadBooks = async () => {
             try {
                 setLoading(true);
-                const booksData = await getBooks(20, "");
+                const booksData = await getBooks(20, "Единственный");
                 setBooks(booksData);
                 setError("");
             } catch (err) {
