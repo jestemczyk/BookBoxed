@@ -1,4 +1,4 @@
-import { getPopularBooks, type Book } from "@/api/googleBooks";
+import { getPopularBooks, type Book } from "@/api/openLibrary";
 import { useEffect, useState } from "react";
 import { BookMiniCard } from "./BookMiniCard";
 

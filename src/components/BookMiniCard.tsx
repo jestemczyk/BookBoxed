@@ -1,4 +1,4 @@
-import { type Book } from "../api/googleBooks";
+import { type Book } from "../api/openLibrary";
 export const BookMiniCard = ({ book, key }: { book: Book; key: string }) => {
     return (
         <div
@@ -9,11 +9,11 @@ export const BookMiniCard = ({ book, key }: { book: Book; key: string }) => {
                 <img
                     src={book.thumbnail}
                     alt={book.title}
-                    className="w-full h-80 object-cover"
+                    className="w-full h-100 object-fill"
                 />
             ) : (
                 <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-                    Нет обложки
+                    No thumbnail
                 </div>
             )}
 
