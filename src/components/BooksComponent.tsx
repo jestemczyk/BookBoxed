@@ -1,4 +1,4 @@
-import { getBooks, type Book } from "@/api/googleBooks";
+import { getPopularBooks, type Book } from "@/api/googleBooks";
 import { useEffect, useState } from "react";
 
 export const BooksComponent: React.FC = () => {
@@ -10,7 +10,7 @@ export const BooksComponent: React.FC = () => {
         const loadBooks = async () => {
             try {
                 setLoading(true);
-                const booksData = await getBooks(20, "Единственный");
+                const booksData = await getPopularBooks();
                 setBooks(booksData);
                 setError("");
             } catch (err) {
@@ -34,7 +34,7 @@ export const BooksComponent: React.FC = () => {
 
     if (books.length === 0) {
         return (
-            <div className="text-center py-8 text-gray-500">Find a book</div>
+            <div className="text-center py-8 text-gray-500">No books found</div>
         );
     }
 

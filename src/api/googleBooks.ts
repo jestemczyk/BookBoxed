@@ -1,4 +1,4 @@
-const BASE_URL = "https://www.googleapis.com/books/v1";
+const BASE_URL = "https://openlibrary.org/search.json?";
 
 export interface Book {
     id: string;
@@ -6,41 +6,57 @@ export interface Book {
     authors: string[];
     thumbnail: string;
     publishedDate: string;
-    description: string;
     pageCount: number;
     categories: string[];
 }
 
-const getBetterThumbnail = (thumbnailUrl: string) => {
-    if (!thumbnailUrl) return "";
+interface OpenLibraryDoc {
+    key: string;
+    title: string;
+    author_name?: string[];
+    cover_i?: number;
+    first_publish_year?: number;
+    publish_year?: number[];
+    description?: string | { value: string };
+    number_of_pages_median?: number;
+    number_of_pages?: number;
+    subject?: string[];
+    cover_edition_key?: string;
+}
 
-    return thumbnailUrl
-        .replace("&edge=curl", "")
-        .replace("zoom=1", "zoom=3")
-        .replace("&zoom=1", "&zoom=3");
-};
+interface OpenLibraryResponse {
+    docs: OpenLibraryDoc[];
+    num_found: number;
+    start: number;
+}
 
-export const getBooks = async (maxResults: number = 20, query: string) => {
+export const getPopularBooks = async () => {
     try {
         const response = await fetch(
-            `${BASE_URL}/volumes?q=${query}&maxResults=${maxResults}&orderBy=newest`,
+            `${BASE_URL}subject=fiction&sort=rating&limit=30`,
         );
-        const data = await response.json();
+        const data = (await response.json()) as OpenLibraryResponse;
 
-        if (!data.items) {
+        if (!data.docs) {
             return [];
         }
-        const books: Book[] = data.items.map((item: any) => ({
-            id: item.id,
-            title: item.volumeInfo.title || "No name",
-            authors: item.volumeInfo.authors || ["Unknown author"],
-            thumbnail: getBetterThumbnail(
-                item.volumeInfo.imageLinks?.thumbnail || "",
-            ),
-            publishedDate: item.volumeInfo.publishedDate || "Unknown date",
-            description: item.volumeInfo.description || "No description",
-            pageCount: item.volumeInfo.pageCount || 0,
-            categories: item.volumeInfo.categories || [],
+
+        const books: Book[] = data.docs.map((item) => ({
+            id:
+                item.key?.replace("/works/", "") ||
+                item.cover_edition_key ||
+                Math.random().toString(),
+            title: item.title || "No name",
+            authors: item.author_name || ["Unknown author"],
+            thumbnail: item.cover_i
+                ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`
+                : "",
+            publishedDate:
+                item.first_publish_year?.toString() ||
+                item.publish_year?.[0]?.toString() ||
+                "Unknown date",
+            pageCount: item.number_of_pages_median || item.number_of_pages || 0,
+            categories: item.subject || [],
         }));
 
         return books;
