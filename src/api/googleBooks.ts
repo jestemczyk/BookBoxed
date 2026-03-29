@@ -49,7 +49,7 @@ export const getPopularBooks = async () => {
             title: item.title || "No name",
             authors: item.author_name || ["Unknown author"],
             thumbnail: item.cover_i
-                ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`
+                ? `https://covers.openlibrary.org/b/id/${item.cover_i}-L.jpg`
                 : "",
             publishedDate:
                 item.first_publish_year?.toString() ||
