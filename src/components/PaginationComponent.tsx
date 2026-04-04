@@ -1,35 +1,52 @@
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useSearchContext } from "@/context/SearchContext";
+
 export const PaginationComponent = () => {
+    const { currentPage, totalPages, toNextPage, toPrevPage, isSearchMode } =
+        useSearchContext();
+
+    const handlePrev = () => {
+        toPrevPage(isSearchMode);
+    };
+
+    const handleNext = () => {
+        toNextPage(isSearchMode);
+    };
+
     return (
         <Pagination>
             <PaginationContent>
                 <PaginationItem>
-                    <PaginationPrevious href="#" />
+                    <PaginationPrevious
+                        onClick={handlePrev}
+                        className={
+                            currentPage === 1
+                                ? "pointer-events-none opacity-50"
+                                : "cursor-pointer"
+                        }
+                    />
                 </PaginationItem>
+
                 <PaginationItem>
-                    <PaginationLink href="#">1</PaginationLink>
+                    <PaginationLink isActive>{currentPage}</PaginationLink>
                 </PaginationItem>
+
                 <PaginationItem>
-                    <PaginationLink href="#" isActive>
-                        2
-                    </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationNext href="#" />
+                    <PaginationNext
+                        onClick={handleNext}
+                        className={
+                            currentPage === totalPages
+                                ? "pointer-events-none opacity-50"
+                                : "cursor-pointer"
+                        }
+                    />
                 </PaginationItem>
             </PaginationContent>
         </Pagination>

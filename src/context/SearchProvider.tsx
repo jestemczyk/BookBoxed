@@ -17,11 +17,11 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [isSearchMode, setIsSearchMode] = useState(false);
 
-    const searchSubmit = async (isSearch: boolean) => {
+    const searchSubmit = async (pageNumber: number, isSearch: boolean) => {
         try {
             setIsLoading(true);
 
-            const offset = (currentPage - 1) * 50;
+            const offset = (pageNumber - 1) * 50;
             let booksData: OpenLibraryResponse;
             if (isSearch) {
                 booksData = (await getBooksByName(
@@ -35,8 +35,8 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             }
 
             if (booksData && booksData.docs) {
-                const totalResults = booksData.num_found || 0;
-                setTotalPages(Math.ceil(totalResults / 50));
+                const PagesCount = Math.ceil(booksData.num_found / 50);
+                setTotalPages(PagesCount < 1000 ? PagesCount : 999);
                 setBooks(renderBooks(booksData));
             } else {
                 setBooks([]);
@@ -52,15 +52,15 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
 
     const toNextPage = (isSearchMode: boolean) => {
         if (currentPage < totalPages) {
+            searchSubmit(currentPage + 1, isSearchMode);
             setCurrentPage((prev) => prev + 1);
-            searchSubmit(isSearchMode);
         }
     };
 
     const toPrevPage = (isSearchMode: boolean) => {
         if (currentPage > 1) {
+            searchSubmit(currentPage - 1, isSearchMode);
             setCurrentPage((prev) => prev - 1);
-            searchSubmit(isSearchMode);
         }
     };
 

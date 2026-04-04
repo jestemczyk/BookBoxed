@@ -10,11 +10,12 @@ export const BooksComponent: React.FC = () => {
         searchSubmit,
         isSearchMode,
         setIsSearchMode,
+        currentPage,
     } = useSearchContext();
 
     useEffect(() => {
         setIsSearchMode(false);
-        searchSubmit(isSearchMode);
+        searchSubmit(currentPage, isSearchMode);
     }, []);
 
     if (isLoading) {

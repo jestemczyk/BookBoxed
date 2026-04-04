@@ -10,7 +10,7 @@ interface booksContextType {
     setError: (query: string) => void;
     books: Book[];
     setBooks: (query: Book[]) => void;
-    searchSubmit: (isSearch: boolean) => Promise<void>;
+    searchSubmit: (pageNumber: number, isSearch: boolean) => Promise<void>;
     currentPage: number;
     totalPages: number;
     setCurrentPage: (page: number) => void;

@@ -5,7 +5,7 @@ import { useSearchContext } from "@/context/SearchContext";
 import { PaginationComponent } from "@/components/PaginationComponent";
 
 export const Books = () => {
-    const { searchSubmit, setIsSearchMode } = useSearchContext();
+    const { searchSubmit, setIsSearchMode, currentPage } = useSearchContext();
     return (
         <div className="border-b border-gray-800 pb-4 mb-6">
             <form
@@ -13,7 +13,7 @@ export const Books = () => {
                 onSubmit={(e) => {
                     e.preventDefault();
                     setIsSearchMode(true);
-                    searchSubmit(true);
+                    searchSubmit(currentPage, true);
                 }}
             >
                 <SearchComponent />
