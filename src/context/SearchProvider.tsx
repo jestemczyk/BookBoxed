@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { SearchContext } from "./SearchContext";
-import { getBooksByName, type Book } from "@/api/openLibrary";
+import { getBooksByName, getPopularBooks, type Book } from "@/api/openLibrary";
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [query, setQuery] = useState("");
@@ -8,10 +8,14 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [books, setBooks] = useState<Book[]>([]);
     const [error, setError] = useState("");
 
-    const searchSubmit = async () => {
+    const searchSubmit = async (isSearch: boolean) => {
         try {
             setIsLoading(true);
-            const booksData = await getBooksByName(query);
+
+            const booksData = isSearch
+                ? await getBooksByName(query)
+                : await getPopularBooks();
+
             setBooks(booksData);
             setError("");
         } catch (err) {

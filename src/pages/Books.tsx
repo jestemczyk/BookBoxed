@@ -11,7 +11,7 @@ export const Books = () => {
                 className="p-5 bg-[#101828] rounded-lg"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    searchSubmit();
+                    searchSubmit(true);
                 }}
             >
                 <SearchComponent />

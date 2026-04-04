@@ -3,9 +3,11 @@ import { BookMiniCard } from "./BookMiniCard";
 import { useSearchContext } from "@/context/SearchContext";
 
 export const BooksComponent: React.FC = () => {
-    const { isLoading, books, error } = useSearchContext();
+    const { isLoading, books, error, searchSubmit } = useSearchContext();
 
-    useEffect(() => {}, [books]);
+    useEffect(() => {
+        searchSubmit(false);
+    }, []);
 
     if (isLoading) {
         return <div className="text-center py-8 text-gray-500">Loading...</div>;
