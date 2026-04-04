@@ -11,6 +11,11 @@ interface booksContextType {
     books: Book[];
     setBooks: (query: Book[]) => void;
     searchSubmit: (isSearch: boolean) => Promise<void>;
+    currentPage: number;
+    totalPages: number;
+    setCurrentPage: (page: number) => void;
+    toNextPage: (isSearch: boolean) => void;
+    toPrevPage: (isSearch: boolean) => void;
 }
 
 export const SearchContext = createContext<booksContextType | undefined>(
