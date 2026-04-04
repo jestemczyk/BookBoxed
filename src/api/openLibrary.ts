@@ -24,13 +24,13 @@ interface OpenLibraryDoc {
     cover_edition_key?: string;
 }
 
-interface OpenLibraryResponse {
+export interface OpenLibraryResponse {
     docs: OpenLibraryDoc[];
     num_found: number;
     start: number;
 }
 
-const renderBooks = (data: OpenLibraryResponse) => {
+export const renderBooks = (data: OpenLibraryResponse) => {
     const books: Book[] = data.docs.map((item) => ({
         id:
             item.key?.replace("/works/", "") ||
@@ -51,32 +51,34 @@ const renderBooks = (data: OpenLibraryResponse) => {
     return books;
 };
 
-export const getPopularBooks = async () => {
+export const getPopularBooks = async (offset: number) => {
     try {
         const response = await fetch(
-            `${BASE_URL}subject=fiction&sort=rating&limit=30`,
+            `${BASE_URL}subject=fiction&sort=rating&limit=50&offset=${offset}`,
         );
         const data = (await response.json()) as OpenLibraryResponse;
 
         if (!data.docs) {
-            return [];
+            return { docs: [], num_found: 0, start: 0 };
         }
 
-        return renderBooks(data);
+        return data;
     } catch (error) {
         console.error(error);
         return [];
     }
 };
 
-export const getBooksByName = async (query: string) => {
+export const getBooksByName = async (query: string, offset: number) => {
     try {
-        const response = await fetch(`${BASE_URL}q=${query}&limit=30`);
+        const response = await fetch(
+            `${BASE_URL}q=${query}&limit=50&offset=${offset}`,
+        );
         const data = (await response.json()) as OpenLibraryResponse;
         if (!data.docs) {
-            return [];
+            return { docs: [], num_found: 0, start: 0 };
         }
-        return renderBooks(data);
+        return data;
     } catch (error) {
         console.error(error);
         return [];

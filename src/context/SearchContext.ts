@@ -10,7 +10,14 @@ interface booksContextType {
     setError: (query: string) => void;
     books: Book[];
     setBooks: (query: Book[]) => void;
-    searchSubmit: (isSearch: boolean) => Promise<void>;
+    searchSubmit: (pageNumber: number, isSearch: boolean) => Promise<void>;
+    currentPage: number;
+    totalPages: number;
+    setCurrentPage: (page: number) => void;
+    toNextPage: (isSearch: boolean) => void;
+    toPrevPage: (isSearch: boolean) => void;
+    isSearchMode: boolean;
+    setIsSearchMode: (query: boolean) => void;
 }
 
 export const SearchContext = createContext<booksContextType | undefined>(

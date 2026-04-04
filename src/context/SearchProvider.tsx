@@ -1,28 +1,66 @@
 import { useState, type ReactNode } from "react";
 import { SearchContext } from "./SearchContext";
-import { getBooksByName, getPopularBooks, type Book } from "@/api/openLibrary";
+import {
+    getBooksByName,
+    getPopularBooks,
+    renderBooks,
+    type Book,
+    type OpenLibraryResponse,
+} from "@/api/openLibrary";
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [query, setQuery] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [books, setBooks] = useState<Book[]>([]);
     const [error, setError] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [isSearchMode, setIsSearchMode] = useState(false);
 
-    const searchSubmit = async (isSearch: boolean) => {
+    const searchSubmit = async (pageNumber: number, isSearch: boolean) => {
         try {
             setIsLoading(true);
 
-            const booksData = isSearch
-                ? await getBooksByName(query)
-                : await getPopularBooks();
+            const offset = (pageNumber - 1) * 50;
+            let booksData: OpenLibraryResponse;
+            if (isSearch) {
+                booksData = (await getBooksByName(
+                    query,
+                    offset,
+                )) as OpenLibraryResponse;
+            } else {
+                booksData = (await getPopularBooks(
+                    offset,
+                )) as OpenLibraryResponse;
+            }
 
-            setBooks(booksData);
-            setError("");
+            if (booksData && booksData.docs) {
+                const PagesCount = Math.ceil(booksData.num_found / 50);
+                setTotalPages(PagesCount < 1000 ? PagesCount : 999);
+                setBooks(renderBooks(booksData));
+            } else {
+                setBooks([]);
+                setTotalPages(1);
+            }
         } catch (err) {
             setError("Failed to load books");
             console.error(err);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const toNextPage = (isSearchMode: boolean) => {
+        if (currentPage < totalPages) {
+            searchSubmit(currentPage + 1, isSearchMode);
+            setCurrentPage((prev) => prev + 1);
+        }
+    };
+
+    const toPrevPage = (isSearchMode: boolean) => {
+        if (currentPage > 1) {
+            searchSubmit(currentPage - 1, isSearchMode);
+            setCurrentPage((prev) => prev - 1);
         }
     };
 
@@ -38,6 +76,13 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 books,
                 setBooks,
                 searchSubmit,
+                totalPages,
+                toNextPage,
+                toPrevPage,
+                currentPage,
+                setCurrentPage,
+                isSearchMode,
+                setIsSearchMode,
             }}
         >
             {children}

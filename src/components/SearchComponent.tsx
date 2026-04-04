@@ -7,7 +7,7 @@ export const SearchComponent = () => {
             <div className="relative">
                 <input
                     type="text"
-                    placeholder="Search for books by title, author, or ISBN..."
+                    placeholder="Search for books by title or author..."
                     className="w-full px-4 py-2 pl-10 bg-[#1E2A3A] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gray-600 transition-colors"
                     style={{ backgroundColor: "#1E2A3A" }}
                     onChange={(e) => setQuery(e.target.value)}
