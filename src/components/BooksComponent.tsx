@@ -1,29 +1,12 @@
-import { getPopularBooks, type Book } from "@/api/openLibrary";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BookMiniCard } from "./BookMiniCard";
 import { useSearchContext } from "@/context/SearchContext";
 
 export const BooksComponent: React.FC = () => {
-    const [books, setBooks] = useState<Book[]>([]);
-    const [error, setError] = useState<string>("");
-    const { isLoading, setIsLoading } = useSearchContext();
+    const { isLoading, books, error, searchSubmit } = useSearchContext();
 
     useEffect(() => {
-        const loadBooks = async () => {
-            try {
-                setIsLoading(true);
-                const booksData = await getPopularBooks();
-                setBooks(booksData);
-                setError("");
-            } catch (err) {
-                setError("Failed to load books");
-                console.error(err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadBooks();
+        searchSubmit(false);
     }, []);
 
     if (isLoading) {

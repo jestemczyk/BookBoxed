@@ -10,10 +10,12 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSearchContext } from "@/context/SearchContext";
 
 export const FiltersComponent = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [position, setPosition] = useState("bottom");
+    const { isLoading } = useSearchContext();
     return (
         <div>
             <button
@@ -88,8 +90,12 @@ export const FiltersComponent = () => {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     ))}
-                    <button className="cursor-pointer px-4 py-2 border border-gray-600 rounded-lg text-gray-200 hover:bg-gray-800 hover:border-gray-500 transition-all md:ml-auto w-full md:w-auto md:text-xs text-center mt-2 md:mt-0 mr-2 font-medium">
-                        FIND A BOOK
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="cursor-pointer px-4 py-2 border border-gray-600 rounded-lg text-gray-200 hover:bg-gray-800 hover:border-gray-500 transition-all md:ml-auto w-full md:w-auto md:text-xs text-center mt-2 md:mt-0 mr-2 font-medium"
+                    >
+                        {isLoading ? "FINDING..." : "FIND A BOOK"}
                     </button>
                 </div>
             </div>

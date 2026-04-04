@@ -12,7 +12,7 @@ export const BookMiniCard = ({ book, key }: { book: Book; key: string }) => {
                     className="w-full h-100 object-fill"
                 />
             ) : (
-                <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                <div className="w-full h-100 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
                     No thumbnail
                 </div>
             )}
