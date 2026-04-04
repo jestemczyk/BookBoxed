@@ -2,6 +2,7 @@ import { FiltersComponent } from "@/components/FiltersComponent";
 import { SearchComponent } from "@/components/SearchComponent";
 import { BooksComponent } from "@/components/BooksComponent";
 import { useSearchContext } from "@/context/SearchContext";
+import { PaginationComponent } from "@/components/PaginationComponent";
 
 export const Books = () => {
     const { searchSubmit } = useSearchContext();
@@ -19,6 +20,7 @@ export const Books = () => {
             </form>
 
             <BooksComponent />
+            <PaginationComponent />
         </div>
     );
 };
