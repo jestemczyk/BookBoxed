@@ -71,7 +71,7 @@ export const getPopularBooks = async () => {
 
 export const getBooksByName = async (query: string) => {
     try {
-        const response = await fetch(`${BASE_URL}q=${query}&limit=30`);
+        const response = await fetch(`/search.json?q=${query}`);
         const data = (await response.json()) as OpenLibraryResponse;
         if (!data.docs) {
             return [];
