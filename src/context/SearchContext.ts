@@ -1,3 +1,4 @@
+import type { Book } from "@/api/openLibrary";
 import { createContext, useContext } from "react";
 
 interface booksContextType {
@@ -5,6 +6,8 @@ interface booksContextType {
     setQuery: (query: string) => void;
     isLoading: boolean;
     setIsLoading: (query: boolean) => void;
+    books: Book[];
+    setBooks: (query: Book[]) => void;
 }
 
 export const SearchContext = createContext<booksContextType | undefined>(
