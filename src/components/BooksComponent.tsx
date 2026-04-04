@@ -3,10 +3,18 @@ import { BookMiniCard } from "./BookMiniCard";
 import { useSearchContext } from "@/context/SearchContext";
 
 export const BooksComponent: React.FC = () => {
-    const { isLoading, books, error, searchSubmit } = useSearchContext();
+    const {
+        isLoading,
+        books,
+        error,
+        searchSubmit,
+        isSearchMode,
+        setIsSearchMode,
+    } = useSearchContext();
 
     useEffect(() => {
-        searchSubmit(false);
+        setIsSearchMode(false);
+        searchSubmit(isSearchMode);
     }, []);
 
     if (isLoading) {

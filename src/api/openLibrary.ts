@@ -54,7 +54,7 @@ export const renderBooks = (data: OpenLibraryResponse) => {
 export const getPopularBooks = async (offset: number) => {
     try {
         const response = await fetch(
-            `${BASE_URL}subject=fiction&sort=rating&limit=30&offset=${offset}`,
+            `${BASE_URL}subject=fiction&sort=rating&limit=50&offset=${offset}`,
         );
         const data = (await response.json()) as OpenLibraryResponse;
 
@@ -72,7 +72,7 @@ export const getPopularBooks = async (offset: number) => {
 export const getBooksByName = async (query: string, offset: number) => {
     try {
         const response = await fetch(
-            `${BASE_URL}q=${query}&limit=30&offset=${offset}`,
+            `${BASE_URL}q=${query}&limit=50&offset=${offset}`,
         );
         const data = (await response.json()) as OpenLibraryResponse;
         if (!data.docs) {

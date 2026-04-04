@@ -16,6 +16,8 @@ interface booksContextType {
     setCurrentPage: (page: number) => void;
     toNextPage: (isSearch: boolean) => void;
     toPrevPage: (isSearch: boolean) => void;
+    isSearchMode: boolean;
+    setIsSearchMode: (query: boolean) => void;
 }
 
 export const SearchContext = createContext<booksContextType | undefined>(
