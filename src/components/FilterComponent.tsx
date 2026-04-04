@@ -13,12 +13,12 @@ export const FilterComponent = ({
     title,
     filters,
     value,
-    onValueChange,
+    setValue,
 }: {
     title: string;
     filters: string[];
     value: string;
-    onValueChange: (value: string) => void;
+    setValue: (value: string) => void;
 }) => {
     return (
         <DropdownMenu>
@@ -39,7 +39,9 @@ export const FilterComponent = ({
 
                     <DropdownMenuRadioGroup
                         value={value}
-                        onValueChange={onValueChange}
+                        onValueChange={(newValue) => {
+                            setValue(newValue);
+                        }}
                     >
                         {filters.map((val) => (
                             <DropdownMenuRadioItem

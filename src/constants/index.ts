@@ -11,15 +11,7 @@ export const FILTERS = {
         "1940s",
         "later",
     ],
-    RATING: ["9+", "8-9", "7-8", "6-7", "5-6", "4-5", "3-4", "below 3"],
 
-    POPULAR: [
-        "Most Popular",
-        "Trending",
-        "Best Sellers",
-        "Most Discussed",
-        "Recently Added",
-    ],
     GENRE: [
         "Fiction",
         "Non-Fiction",
@@ -34,4 +26,5 @@ export const FILTERS = {
         "Poetry",
         "Children's",
     ],
+    OTHER: ["By rating", "By editions"],
 };

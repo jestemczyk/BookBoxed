@@ -2,10 +2,19 @@ import { useState } from "react";
 import { FILTERS } from "../constants";
 
 import { useSearchContext } from "@/context/SearchContext";
+import { FilterComponent } from "./FilterComponent";
 
 export const FiltersComponent = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const { isLoading } = useSearchContext();
+    const {
+        isLoading,
+        yearFilterValue,
+        setYearFilterValue,
+        genreFilterValue,
+        setGenreFilterValue,
+        otherFilterValue,
+        setOtherFilterValue,
+    } = useSearchContext();
     return (
         <div>
             <button
@@ -33,8 +42,24 @@ export const FiltersComponent = () => {
                     <span className="font-medium text-gray-300 hidden md:block">
                         BROWSE BY
                     </span>
-                    <FiltersComponent title="YEAR" filters={FILTERS.YEAR} />
-
+                    <FilterComponent
+                        title="YEAR"
+                        filters={FILTERS.YEAR}
+                        value={yearFilterValue}
+                        setValue={setYearFilterValue}
+                    />
+                    <FilterComponent
+                        title="GENRE"
+                        filters={FILTERS.GENRE}
+                        value={genreFilterValue}
+                        setValue={setGenreFilterValue}
+                    />
+                    <FilterComponent
+                        title="OTHER"
+                        filters={FILTERS.OTHER}
+                        value={otherFilterValue}
+                        setValue={setOtherFilterValue}
+                    />
                     <button
                         type="submit"
                         disabled={isLoading}

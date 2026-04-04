@@ -16,6 +16,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isSearchMode, setIsSearchMode] = useState(false);
+    const [yearFilterValue, setYearFilterValue] = useState("");
+    const [genreFilterValue, setGenreFilterValue] = useState("");
+    const [otherFilterValue, setOtherFilterValue] = useState("");
 
     const searchSubmit = async (pageNumber: number, isSearch: boolean) => {
         try {
@@ -83,6 +86,12 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 setCurrentPage,
                 isSearchMode,
                 setIsSearchMode,
+                yearFilterValue,
+                setYearFilterValue,
+                genreFilterValue,
+                setGenreFilterValue,
+                otherFilterValue,
+                setOtherFilterValue,
             }}
         >
             {children}

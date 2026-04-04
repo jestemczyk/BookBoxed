@@ -18,6 +18,12 @@ interface booksContextType {
     toPrevPage: (isSearch: boolean) => void;
     isSearchMode: boolean;
     setIsSearchMode: (query: boolean) => void;
+    yearFilterValue: string;
+    setYearFilterValue: (value: string) => void;
+    genreFilterValue: string;
+    setGenreFilterValue: (value: string) => void;
+    otherFilterValue: string;
+    setOtherFilterValue: (value: string) => void;
 }
 
 export const SearchContext = createContext<booksContextType | undefined>(
