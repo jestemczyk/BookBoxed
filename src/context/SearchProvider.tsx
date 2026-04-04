@@ -1,6 +1,12 @@
 import { useState, type ReactNode } from "react";
 import { SearchContext } from "./SearchContext";
-import { getBooksByName, getPopularBooks, type Book } from "@/api/openLibrary";
+import {
+    getBooksByName,
+    getPopularBooks,
+    renderBooks,
+    type Book,
+    type OpenLibraryResponse,
+} from "@/api/openLibrary";
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [query, setQuery] = useState("");
@@ -15,12 +21,26 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             setIsLoading(true);
 
             const offset = (currentPage - 1) * 30;
-            const booksData = isSearch
-                ? await getBooksByName(query, offset)
-                : await getPopularBooks(offset);
+            let booksData: OpenLibraryResponse;
+            if (isSearch) {
+                booksData = (await getBooksByName(
+                    query,
+                    offset,
+                )) as OpenLibraryResponse;
+            } else {
+                booksData = (await getPopularBooks(
+                    offset,
+                )) as OpenLibraryResponse;
+            }
 
-            setBooks(booksData);
-            setError("");
+            if (booksData && booksData.docs) {
+                const totalResults = booksData.num_found || 0;
+                setTotalPages(Math.ceil(totalResults / 30));
+                setBooks(renderBooks(booksData));
+            } else {
+                setBooks([]);
+                setTotalPages(1);
+            }
         } catch (err) {
             setError("Failed to load books");
             console.error(err);
@@ -58,6 +78,8 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 totalPages,
                 toNextPage,
                 toPrevPage,
+                currentPage,
+                setCurrentPage,
             }}
         >
             {children}

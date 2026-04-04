@@ -24,13 +24,13 @@ interface OpenLibraryDoc {
     cover_edition_key?: string;
 }
 
-interface OpenLibraryResponse {
+export interface OpenLibraryResponse {
     docs: OpenLibraryDoc[];
     num_found: number;
     start: number;
 }
 
-const renderBooks = (data: OpenLibraryResponse) => {
+export const renderBooks = (data: OpenLibraryResponse) => {
     const books: Book[] = data.docs.map((item) => ({
         id:
             item.key?.replace("/works/", "") ||
@@ -59,10 +59,10 @@ export const getPopularBooks = async (offset: number) => {
         const data = (await response.json()) as OpenLibraryResponse;
 
         if (!data.docs) {
-            return [];
+            return { docs: [], num_found: 0, start: 0 };
         }
 
-        return renderBooks(data);
+        return data;
     } catch (error) {
         console.error(error);
         return [];
@@ -76,9 +76,9 @@ export const getBooksByName = async (query: string, offset: number) => {
         );
         const data = (await response.json()) as OpenLibraryResponse;
         if (!data.docs) {
-            return [];
+            return { docs: [], num_found: 0, start: 0 };
         }
-        return renderBooks(data);
+        return data;
     } catch (error) {
         console.error(error);
         return [];
