@@ -71,6 +71,7 @@ export const getPopularBooks = async (offset: number) => {
 
 const mkUrl = (query: string, offset: number, filters: string[]) => {
     let urlQuery = `title:(${query}) OR author_name:(${query})`;
+    let additionalQuery = "";
     if (filters[0] && filters[0] !== "None") {
         if (filters[0] === "2020s")
             urlQuery += " AND first_publish_year:[2020 TO 2029]";
@@ -98,10 +99,12 @@ const mkUrl = (query: string, offset: number, filters: string[]) => {
         urlQuery += ` AND subject:"${filters[1].toLowerCase()}"`;
     }
     if (filters[2] && filters[2] !== "None") {
-        if (filters[2] === "By rating") urlQuery += "&sort=rating";
-        if (filters[2] === "By editions") urlQuery += "&sort=editions";
+        if (filters[2] === "By rating") additionalQuery = "&sort=rating";
+        if (filters[2] === "By editions") additionalQuery = "&sort=editions";
+        if (filters[2] === "By newest") additionalQuery = "&sort=new";
+        if (filters[2] === "By latest") additionalQuery = "&sort=old";
     }
-    const urlString = `${BASE_URL}q=${urlQuery}&limit=50&offset=${offset}`;
+    const urlString = `${BASE_URL}q=${urlQuery}${additionalQuery}&limit=50&offset=${offset}`;
     return urlString;
 };
 

@@ -28,5 +28,5 @@ export const FILTERS = {
         "Nonfiction",
         "Self-help",
     ],
-    OTHER: ["None", "By rating", "By editions"],
+    OTHER: ["None", "By rating", "By editions", "By newest", "By latest"],
 };
