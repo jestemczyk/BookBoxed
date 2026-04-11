@@ -95,7 +95,7 @@ const mkUrl = (query: string, offset: number, filters: string[]) => {
     }
 
     if (filters[1] && filters[1] !== "None") {
-        urlQuery += `&subject=${filters[1].toLowerCase()}`;
+        urlQuery += ` AND subject:"${filters[1].toLowerCase()}"`;
     }
     if (filters[2] && filters[2] !== "None") {
         if (filters[2] === "By rating") urlQuery += "&sort=rating";
