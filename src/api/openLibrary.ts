@@ -70,27 +70,38 @@ export const getPopularBooks = async (offset: number) => {
 };
 
 const mkUrl = (query: string, offset: number, filters: string[]) => {
-    const urlQuery = `title:(${query}) OR author_name:(${query})`;
-    let urlString = `${BASE_URL}q=${urlQuery}&limit=50&offset=${offset}`;
+    let urlQuery = `title:(${query}) OR author_name:(${query})`;
     if (filters[0] && filters[0] !== "None") {
-        if (filters[0] === "2020s") urlString += "&year=2020-2029";
-        else if (filters[0] === "2010s") urlString += "&year=2010-2019";
-        else if (filters[0] === "2000s") urlString += "&year=2000-2009";
-        else if (filters[0] === "1990s") urlString += "&year=1990-1999";
-        else if (filters[0] === "1980s") urlString += "&year=1980-1989";
-        else if (filters[0] === "1970s") urlString += "&year=1970-1979";
-        else if (filters[0] === "1960s") urlString += "&year=1960-1969";
-        else if (filters[0] === "1950s") urlString += "&year=1950-1959";
-        else if (filters[0] === "1940s") urlString += "&year=1940-1949";
-        else if (filters[0] === "later") urlString += "&year=1900-1940";
+        if (filters[0] === "2020s")
+            urlQuery += " AND first_publish_year:[2020 TO 2029]";
+        else if (filters[0] === "2010s")
+            urlQuery += " AND first_publish_year:[2010 TO 2019]";
+        else if (filters[0] === "2000s")
+            urlQuery += " AND first_publish_year:[2000 TO 2009]";
+        else if (filters[0] === "1990s")
+            urlQuery += " AND first_publish_year:[1990 TO 1999]";
+        else if (filters[0] === "1980s")
+            urlQuery += " AND first_publish_year:[1980 TO 1989]";
+        else if (filters[0] === "1970s")
+            urlQuery += " AND first_publish_year:[1970 TO 1979]";
+        else if (filters[0] === "1960s")
+            urlQuery += " AND first_publish_year:[1960 TO 1969]";
+        else if (filters[0] === "1950s")
+            urlQuery += " AND first_publish_year:[1950 TO 1959]";
+        else if (filters[0] === "1940s")
+            urlQuery += " AND first_publish_year:[1940 TO 1949]";
+        else if (filters[0] === "later")
+            urlQuery += " AND first_publish_year:[1900 TO 1940]";
     }
+
     if (filters[1] && filters[1] !== "None") {
-        urlString += `&subject=${filters[1].toLowerCase()}`;
+        urlQuery += `&subject=${filters[1].toLowerCase()}`;
     }
     if (filters[2] && filters[2] !== "None") {
-        if (filters[2] === "By rating") urlString += "&sort=rating";
-        if (filters[2] === "By editions") urlString += "&sort=editions";
+        if (filters[2] === "By rating") urlQuery += "&sort=rating";
+        if (filters[2] === "By editions") urlQuery += "&sort=editions";
     }
+    const urlString = `${BASE_URL}q=${urlQuery}&limit=50&offset=${offset}`;
     return urlString;
 };
 
