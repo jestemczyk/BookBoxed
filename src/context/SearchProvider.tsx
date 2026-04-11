@@ -16,9 +16,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isSearchMode, setIsSearchMode] = useState(false);
-    const [yearFilterValue, setYearFilterValue] = useState("");
-    const [genreFilterValue, setGenreFilterValue] = useState("");
-    const [otherFilterValue, setOtherFilterValue] = useState("");
+    const [yearFilterValue, setYearFilterValue] = useState("None");
+    const [genreFilterValue, setGenreFilterValue] = useState("None");
+    const [otherFilterValue, setOtherFilterValue] = useState("None");
 
     const searchSubmit = async (pageNumber: number, isSearch: boolean) => {
         try {
@@ -30,6 +30,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 booksData = (await getBooksByName(
                     query,
                     offset,
+                    yearFilterValue,
+                    genreFilterValue,
+                    otherFilterValue,
                 )) as OpenLibraryResponse;
             } else {
                 booksData = (await getPopularBooks(

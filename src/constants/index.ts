@@ -1,5 +1,6 @@
 export const FILTERS = {
     YEAR: [
+        "None",
         "2020s",
         "2010s",
         "2000s",
@@ -13,6 +14,7 @@ export const FILTERS = {
     ],
 
     GENRE: [
+        "None",
         "Fiction",
         "Non-Fiction",
         "Science Fiction",
@@ -26,5 +28,5 @@ export const FILTERS = {
         "Poetry",
         "Children's",
     ],
-    OTHER: ["By rating", "By editions"],
+    OTHER: ["None", "By rating", "By editions"],
 };
