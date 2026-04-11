@@ -21,7 +21,14 @@ export const BookMiniCard = ({ book, key }: { book: Book; key: string }) => {
                 <h3 className="font-medium text-sm line-clamp-2">
                     {book.title}
                 </h3>
-                <p className="text-xs text-gray-500 mt-1">{book.authors[0]}</p>
+                <div className="flex justify-between">
+                    <p className="text-xs text-gray-500 mt-1">
+                        {book.authors[0]}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                        {book.publishedDate}
+                    </p>
+                </div>
             </div>
         </div>
     );
