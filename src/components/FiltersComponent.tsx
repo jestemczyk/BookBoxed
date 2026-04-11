@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { FILTERS } from "../constants";
-import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuLabel,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { useSearchContext } from "@/context/SearchContext";
+import { FilterComponent } from "./FilterComponent";
 
 export const FiltersComponent = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const [position, setPosition] = useState("bottom");
-    const { isLoading } = useSearchContext();
+    const {
+        isLoading,
+        yearFilterValue,
+        setYearFilterValue,
+        genreFilterValue,
+        setGenreFilterValue,
+        otherFilterValue,
+        setOtherFilterValue,
+    } = useSearchContext();
     return (
         <div>
             <button
@@ -43,53 +42,24 @@ export const FiltersComponent = () => {
                     <span className="font-medium text-gray-300 hidden md:block">
                         BROWSE BY
                     </span>
-
-                    {FILTERS.map((filter) => (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger className="" asChild>
-                                <Button
-                                    variant="outline"
-                                    className="border-[#6a7282] text-white hover:bg-[#101828] hover:text-white transition-colors"
-                                >
-                                    {filter.title}
-                                </Button>
-                            </DropdownMenuTrigger>
-
-                            <DropdownMenuContent className="w-32 bg-[#131313] border border-[#6a7282] shadow-lg rounded-lg">
-                                <DropdownMenuGroup>
-                                    <DropdownMenuLabel className="text-white font-semibold">
-                                        Choose option
-                                    </DropdownMenuLabel>
-
-                                    <DropdownMenuRadioGroup
-                                        value={position}
-                                        onValueChange={setPosition}
-                                    >
-                                        <DropdownMenuRadioItem
-                                            value="top"
-                                            className="text-[#6a7282] hover:text-white hover:bg-[#101828] focus:bg-[#101828] focus:text-white cursor-pointer"
-                                        >
-                                            Top
-                                        </DropdownMenuRadioItem>
-
-                                        <DropdownMenuRadioItem
-                                            value="bottom"
-                                            className="text-[#6a7282] hover:text-white hover:bg-[#101828] focus:bg-[#101828] focus:text-white cursor-pointer"
-                                        >
-                                            Bottom
-                                        </DropdownMenuRadioItem>
-
-                                        <DropdownMenuRadioItem
-                                            value="right"
-                                            className="text-[#6a7282] hover:text-white hover:bg-[#101828] focus:bg-[#101828] focus:text-white cursor-pointer"
-                                        >
-                                            Right
-                                        </DropdownMenuRadioItem>
-                                    </DropdownMenuRadioGroup>
-                                </DropdownMenuGroup>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    ))}
+                    <FilterComponent
+                        title="YEAR"
+                        filters={FILTERS.YEAR}
+                        value={yearFilterValue}
+                        setValue={setYearFilterValue}
+                    />
+                    <FilterComponent
+                        title="GENRE"
+                        filters={FILTERS.GENRE}
+                        value={genreFilterValue}
+                        setValue={setGenreFilterValue}
+                    />
+                    <FilterComponent
+                        title="OTHER"
+                        filters={FILTERS.OTHER}
+                        value={otherFilterValue}
+                        setValue={setOtherFilterValue}
+                    />
                     <button
                         type="submit"
                         disabled={isLoading}

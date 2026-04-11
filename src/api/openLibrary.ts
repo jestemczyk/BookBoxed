@@ -69,11 +69,56 @@ export const getPopularBooks = async (offset: number) => {
     }
 };
 
-export const getBooksByName = async (query: string, offset: number) => {
+const mkUrl = (query: string, offset: number, filters: string[]) => {
+    let urlQuery = `title:(${query}) OR author_name:(${query})`;
+    let additionalQuery = "";
+    if (filters[0] && filters[0] !== "None") {
+        if (filters[0] === "2020s")
+            urlQuery += " AND first_publish_year:[2020 TO 2029]";
+        else if (filters[0] === "2010s")
+            urlQuery += " AND first_publish_year:[2010 TO 2019]";
+        else if (filters[0] === "2000s")
+            urlQuery += " AND first_publish_year:[2000 TO 2009]";
+        else if (filters[0] === "1990s")
+            urlQuery += " AND first_publish_year:[1990 TO 1999]";
+        else if (filters[0] === "1980s")
+            urlQuery += " AND first_publish_year:[1980 TO 1989]";
+        else if (filters[0] === "1970s")
+            urlQuery += " AND first_publish_year:[1970 TO 1979]";
+        else if (filters[0] === "1960s")
+            urlQuery += " AND first_publish_year:[1960 TO 1969]";
+        else if (filters[0] === "1950s")
+            urlQuery += " AND first_publish_year:[1950 TO 1959]";
+        else if (filters[0] === "1940s")
+            urlQuery += " AND first_publish_year:[1940 TO 1949]";
+        else if (filters[0] === "later")
+            urlQuery += " AND first_publish_year:[1900 TO 1940]";
+    }
+
+    if (filters[1] && filters[1] !== "None") {
+        urlQuery += ` AND subject:"${filters[1].toLowerCase()}"`;
+    }
+    if (filters[2] && filters[2] !== "None") {
+        if (filters[2] === "By rating") additionalQuery = "&sort=rating";
+        if (filters[2] === "By editions") additionalQuery = "&sort=editions";
+        if (filters[2] === "By newest") additionalQuery = "&sort=new";
+        if (filters[2] === "By latest") additionalQuery = "&sort=old";
+    }
+    const urlString = `${BASE_URL}q=${urlQuery}${additionalQuery}&limit=50&offset=${offset}`;
+    return urlString;
+};
+
+export const getBooksByName = async (
+    query: string,
+    offset: number,
+    yearFilterValue: string,
+    genreFilterValue: string,
+    otherFilterValue: string,
+) => {
     try {
-        const response = await fetch(
-            `${BASE_URL}q=${query}&limit=50&offset=${offset}`,
-        );
+        const filters = [yearFilterValue, genreFilterValue, otherFilterValue];
+        const url = mkUrl(query, offset, filters);
+        const response = await fetch(url);
         const data = (await response.json()) as OpenLibraryResponse;
         if (!data.docs) {
             return { docs: [], num_found: 0, start: 0 };
