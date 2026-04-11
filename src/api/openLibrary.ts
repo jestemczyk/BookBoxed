@@ -54,7 +54,7 @@ export const renderBooks = (data: OpenLibraryResponse) => {
 export const getPopularBooks = async (offset: number) => {
     try {
         const response = await fetch(
-            `${BASE_URL}subject=fiction&sort=rating&limit=50&offset=${offset}`,
+            `${BASE_URL}subject=fiction&sort=rating&limit=50&offset=${offset}&fields=key,title,author_name,first_publish_year,cover_i`,
         );
         const data = (await response.json()) as OpenLibraryResponse;
 
@@ -104,7 +104,7 @@ const mkUrl = (query: string, offset: number, filters: string[]) => {
         if (filters[2] === "By newest") additionalQuery = "&sort=new";
         if (filters[2] === "By latest") additionalQuery = "&sort=old";
     }
-    const urlString = `${BASE_URL}q=${urlQuery}${additionalQuery}&limit=50&offset=${offset}`;
+    const urlString = `${BASE_URL}q=${urlQuery}${additionalQuery}&limit=50&offset=${offset}&fields=key,title,author_name,first_publish_year,cover_i`;
     return urlString;
 };
 
