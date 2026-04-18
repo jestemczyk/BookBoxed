@@ -20,12 +20,12 @@ export const BookMiniCard = ({
                         className="w-full h-100 object-fill"
                     />
                 ) : (
-                    <div className="w-full h-100 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                    <div className="w-full h-100 bg-gray-800 flex items-center justify-center text-gray-400 text-sm">
                         No thumbnail
                     </div>
                 )}
 
-                <div className="p-3">
+                <div className="p-3 h-15">
                     <h3 className="font-medium text-sm line-clamp-2 text-white">
                         {book.title}
                     </h3>
