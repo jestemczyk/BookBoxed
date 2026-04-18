@@ -54,27 +54,31 @@ export const Book = () => {
                     </Link>
 
                     <div className="grid grid-cols-1 md:grid-cols-[340px_1fr] gap-8 mb-8">
-                        <div className="bg-[#1e2a3a] rounded-2xl p-6 text-center shadow-xl">
+                        <div className="bg-[#1e2a3a] rounded-2xl shadow-xl relative overflow-hidden">
                             {book.cover_i ? (
-                                <img
-                                    src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
-                                    alt={book.title}
-                                    className="w-full max-w-[260px] mx-auto rounded-xl shadow-lg mb-4"
-                                    onError={(e) => {
-                                        (e.target as HTMLImageElement).src =
-                                            "https://via.placeholder.com/260x380?text=No+Cover";
-                                    }}
-                                />
+                                <>
+                                    <img
+                                        src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
+                                        alt={book.title}
+                                        className="w-full h-full object-cover rounded-2xl"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src =
+                                                "https://via.placeholder.com/340x500?text=No+Cover";
+                                        }}
+                                    />
+                                    <div className="absolute bottom-3 right-3 z-10">
+                                        <span className="text-xs bg-gray-800/70 backdrop-blur-sm px-3 py-1.5 rounded-full text-white/90 font-medium shadow-lg">
+                                            {book.number_of_pages_median
+                                                ? `${book.number_of_pages_median} pages`
+                                                : "Pages unknown"}
+                                        </span>
+                                    </div>
+                                </>
                             ) : (
-                                <div className="w-full max-w-[260px] mx-auto bg-gray-700 rounded-xl aspect-[2/3] flex items-center justify-center text-[#596272] mb-4">
+                                <div className="w-full aspect-[2/3] bg-gray-700 rounded-2xl flex items-center justify-center text-[#596272]">
                                     📖 No cover
                                 </div>
                             )}
-                            <span className="text-xs bg-gray-700/50 px-3 py-1 rounded-full text-white/80">
-                                {book.number_of_pages_median
-                                    ? `${book.number_of_pages_median} pages`
-                                    : "Pages unknown"}
-                            </span>
                         </div>
 
                         <div className="bg-[#1e2a3a] rounded-2xl p-6 shadow-xl">
@@ -145,7 +149,7 @@ export const Book = () => {
                             <h2 className="text-xl font-bold mb-3 flex items-center gap-2">
                                 <span>📖</span> Description
                             </h2>
-                            <p className="text-[#596272] leading-relaxed">
+                            <p className="text-white leading-relaxed">
                                 {typeof book.description === "string"
                                     ? book.description
                                     : (book.description as { value: string })

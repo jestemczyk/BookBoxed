@@ -1,11 +1,17 @@
 import { Link } from "react-router";
-import { type Book } from "../api/openLibrary";
-export const BookMiniCard = ({ book, key }: { book: Book; key: string }) => {
+import { type BookCard } from "../api/openLibrary";
+export const BookMiniCard = ({
+    book,
+    key,
+}: {
+    book: BookCard;
+    key: string;
+}) => {
     return (
         <Link to={`/book/${book.id}`}>
             <div
                 key={key}
-                className="border border-gray-200 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow"
+                className="border border-gray-800 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow"
             >
                 {book.thumbnail ? (
                     <img
@@ -20,7 +26,7 @@ export const BookMiniCard = ({ book, key }: { book: Book; key: string }) => {
                 )}
 
                 <div className="p-3">
-                    <h3 className="font-medium text-sm line-clamp-2">
+                    <h3 className="font-medium text-sm line-clamp-2 text-white">
                         {book.title}
                     </h3>
                     <div className="flex justify-between">
