@@ -19,7 +19,11 @@ export const BooksComponent: React.FC = () => {
     }, []);
 
     if (isLoading) {
-        return <div className="text-center py-8 text-gray-500">Loading...</div>;
+        return (
+            <div className="text-center py-8 text-gray-500 h-[1000px]">
+                Loading...
+            </div>
+        );
     }
 
     if (error) {

@@ -94,7 +94,7 @@ export const MainLayout = () => {
                     )}
                 </nav>
             </header>
-            <main className="flex-grow container mx-auto px-4 py-8">
+            <main className="flex-grow container mx-auto px-4 py-8 ">
                 <Outlet />
             </main>
             <footer className="border-t bg-gray-900 border-t border-gray-800">
