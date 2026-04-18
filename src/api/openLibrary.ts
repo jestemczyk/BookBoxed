@@ -75,10 +75,8 @@ export interface OpenLibraryOneBookResponse {
 export interface BookType {
     id: string;
     title: string;
-    subtitle: string;
-    authors: string[];
+    author: string;
     publishYear: number | null;
-    publishers: string[];
     numberOfPages: number | null;
     rating: number | null;
     subjects: string[];
@@ -89,6 +87,45 @@ export interface BookType {
     links: { title: string; url: string }[];
     subject_people: string[];
     subject_places: string[];
+}
+
+export interface OpenLibraryAuthorResponse {
+    personal_name: string;
+    name: string;
+    bio: string;
+    remote_ids?: {
+        viaf?: string;
+        storygraph?: string;
+        amazon?: string;
+        wikidata?: string;
+        isni?: string;
+        goodreads?: string;
+        project_gutenberg?: string;
+        musicbrainz?: string;
+        bookbrainz?: string;
+        imdb?: string;
+        lc_naf?: string;
+        librarything?: string;
+        librivox?: string;
+        opac_sbn?: string;
+    };
+    birth_date: string;
+    source_records?: string[];
+    links?: {
+        title: string;
+        url: string;
+        type: { key: string };
+    }[];
+    death_date: string;
+    fuller_name: string;
+    alternate_names: string[];
+    photos: number[];
+    key: string;
+    type: { key: string };
+    latest_revision: number;
+    revision: number;
+    created: { type: string; value: string };
+    last_modified: { type: string; value: string };
 }
 
 export const renderBooks = (data: OpenLibraryResponse) => {
@@ -200,5 +237,19 @@ export const getBookById = async (id: string | undefined) => {
         return data;
     } catch (error) {
         console.error(error);
+    }
+};
+
+export const getAuthorName = async (id: string) => {
+    try {
+        const response = await fetch(`https://openlibrary.org${id}.json`);
+        const data = (await response.json()) as OpenLibraryAuthorResponse;
+        if (data.name) {
+            return data.name;
+        }
+        return "No author name";
+    } catch (error) {
+        console.error(error);
+        return "No  author name";
     }
 };

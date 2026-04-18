@@ -1,4 +1,5 @@
 import {
+    getAuthorName,
     getBookById,
     type BookType,
     type OpenLibraryOneBookResponse,
@@ -20,14 +21,14 @@ export const Book = () => {
                     bookId,
                 )) as OpenLibraryOneBookResponse;
 
+                const authorName = await getAuthorName(
+                    workData.authors[0].author.key,
+                );
+
                 const transformedBook = {
                     id: workData.key,
                     title: workData.title,
-                    subtitle: workData.subtitle || "",
-                    authors:
-                        workData.authors?.map((author) =>
-                            author.author.key.replace("/authors/", ""),
-                        ) || [],
+                    author: authorName,
                     publishYear:
                         workData.first_publish_year ||
                         (workData.first_publish_date
@@ -35,7 +36,6 @@ export const Book = () => {
                                   workData.first_publish_date.split(", ")[1],
                               )
                             : null),
-                    publishers: [], // В workData нет издателей, нужно будет из editions API
                     numberOfPages: null, // В workData нет количества страниц
                     rating: null, // В workData нет рейтинга
                     subjects: workData.subjects?.slice(0, 6) || [],
@@ -118,13 +118,9 @@ export const Book = () => {
                             <h1 className="text-3xl md:text-4xl font-bold text-white mb-1">
                                 {book.title}
                             </h1>
-                            {book.subtitle && (
-                                <p className="text-[#596272] italic mb-2">
-                                    {book.subtitle}
-                                </p>
-                            )}
-                            <p className="text-indigo-300 font-medium mb-4">
-                                {book.authors.join(", ")}
+
+                            <p className="text-indigo-300 font-medium mb-4 cursor-pointer">
+                                {book.author}
                             </p>
 
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 border-y border-gray-700 my-4">
@@ -156,10 +152,10 @@ export const Book = () => {
                                 </div>
                                 <div>
                                     <p className="text-xs uppercase tracking-wider text-[#596272]">
-                                        Publisher
+                                        Id
                                     </p>
                                     <p className="font-semibold text-white">
-                                        {book.publishers[0] || "—"}
+                                        {bookId}
                                     </p>
                                 </div>
                             </div>
