@@ -31,62 +31,29 @@ export interface OpenLibraryResponse {
 }
 
 export interface OpenLibraryOneBookResponse {
-    description:
-        | {
-              type: string;
-              value: string;
-          }
-        | string;
+    docs: BookType[];
+    num_found: number;
+    start: number;
+}
+
+export interface BookType {
+    author_name: string[];
+    cover_i: number;
+    first_publish_year: number;
+    isbn: string[];
+    key: string;
+    number_of_pages_median: number;
+    title: string;
+    subject: string[];
+    ratings_average: number;
+    description?: string;
+    subject_people?: string[];
+    subject_places?: string[];
     links?: {
         title: string;
         url: string;
         type?: { key: string };
     }[];
-    title: string;
-    covers: number[];
-    subject_places?: string[];
-    first_publish_date?: string;
-    subject_people?: string[];
-    key: string;
-    authors: {
-        author: {
-            key: string;
-        };
-        type?: { key: string };
-    }[];
-    subjects: string[];
-    subject_times?: string[];
-    excerpts?: {
-        excerpt: string;
-        comment?: string;
-        pages?: string;
-        author?: { key: string };
-    }[];
-    first_publish_year?: number;
-    latest_revision?: number;
-    revision?: number;
-    created?: { type: string; value: string };
-    last_modified?: { type: string; value: string };
-    type?: { key: string };
-    cover_edition?: { key: string };
-    series?: Array<{ series: { key: string }; position: string }>;
-}
-
-export interface BookType {
-    id: string;
-    title: string;
-    author: string;
-    publishYear: number | null;
-    numberOfPages: number | null;
-    rating: number | null;
-    subjects: string[];
-    description: string;
-    coverId: number | null;
-    isbn13: string[];
-    olid: string;
-    links: { title: string; url: string }[];
-    subject_people: string[];
-    subject_places: string[];
 }
 
 export interface OpenLibraryAuthorResponse {
@@ -231,25 +198,15 @@ export const getBookById = async (id: string | undefined) => {
     }
     try {
         const response = await fetch(
-            `https://openlibrary.org/works/${id}.json`,
+            `
+            https://openlibrary.org/search.json?q=key:/works/${id}&fields=key,title,author_name,first_publish_year,number_of_pages_median,ratings_average,cover_i,isbn,subject,subject_people,subject_places,links,description&limit=1
+            
+`,
         );
         const data = (await response.json()) as OpenLibraryOneBookResponse;
-        return data;
+        const dataDoc = data.docs[0];
+        return dataDoc;
     } catch (error) {
         console.error(error);
-    }
-};
-
-export const getAuthorName = async (id: string) => {
-    try {
-        const response = await fetch(`https://openlibrary.org${id}.json`);
-        const data = (await response.json()) as OpenLibraryAuthorResponse;
-        if (data.name) {
-            return data.name;
-        }
-        return "No author name";
-    } catch (error) {
-        console.error(error);
-        return "No  author name";
     }
 };

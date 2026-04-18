@@ -1,9 +1,4 @@
-import {
-    getAuthorName,
-    getBookById,
-    type BookType,
-    type OpenLibraryOneBookResponse,
-} from "@/api/openLibrary";
+import { getBookById, type BookType } from "@/api/openLibrary";
 import { useSearchContext } from "@/context/SearchContext";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
@@ -17,41 +12,9 @@ export const Book = () => {
         const fetchBook = async () => {
             setIsLoading(true);
             try {
-                const workData = (await getBookById(
-                    bookId,
-                )) as OpenLibraryOneBookResponse;
+                const workData = (await getBookById(bookId)) as BookType;
 
-                const authorName = await getAuthorName(
-                    workData.authors[0].author.key,
-                );
-
-                const transformedBook = {
-                    id: workData.key,
-                    title: workData.title,
-                    author: authorName,
-                    publishYear:
-                        workData.first_publish_year ||
-                        (workData.first_publish_date
-                            ? parseInt(
-                                  workData.first_publish_date.split(", ")[1],
-                              )
-                            : null),
-                    numberOfPages: null, // В workData нет количества страниц
-                    rating: null, // В workData нет рейтинга
-                    subjects: workData.subjects?.slice(0, 6) || [],
-                    description:
-                        typeof workData.description === "string"
-                            ? workData.description
-                            : workData.description?.value || "No description",
-                    coverId: workData.covers?.[0] || null,
-                    isbn13: [], // В workData нет ISBN
-                    olid: workData.key?.replace("/works/", "") || "",
-                    links: workData.links || [],
-                    subject_people: workData.subject_people?.slice(0, 6) || [],
-                    subject_places: workData.subject_places?.slice(0, 4) || [],
-                };
-
-                setBook(transformedBook);
+                setBook(workData);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -92,9 +55,9 @@ export const Book = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-[340px_1fr] gap-8 mb-8">
                         <div className="bg-[#1e2a3a] rounded-2xl p-6 text-center shadow-xl">
-                            {book.coverId ? (
+                            {book.cover_i ? (
                                 <img
-                                    src={`https://covers.openlibrary.org/b/id/${book.coverId}-L.jpg`}
+                                    src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
                                     alt={book.title}
                                     className="w-full max-w-[260px] mx-auto rounded-xl shadow-lg mb-4"
                                     onError={(e) => {
@@ -108,8 +71,8 @@ export const Book = () => {
                                 </div>
                             )}
                             <span className="text-xs bg-gray-700/50 px-3 py-1 rounded-full text-white/80">
-                                {book.numberOfPages
-                                    ? `${book.numberOfPages} pages`
+                                {book.number_of_pages_median
+                                    ? `${book.number_of_pages_median} pages`
                                     : "Pages unknown"}
                             </span>
                         </div>
@@ -120,7 +83,7 @@ export const Book = () => {
                             </h1>
 
                             <p className="text-indigo-300 font-medium mb-4 cursor-pointer">
-                                {book.author}
+                                {book.author_name?.[0] || "Unknown Author"}
                             </p>
 
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 border-y border-gray-700 my-4">
@@ -129,7 +92,7 @@ export const Book = () => {
                                         Year
                                     </p>
                                     <p className="font-semibold text-white">
-                                        {book.publishYear || "—"}
+                                        {book.first_publish_year || "—"}
                                     </p>
                                 </div>
                                 <div>
@@ -137,7 +100,7 @@ export const Book = () => {
                                         Pages
                                     </p>
                                     <p className="font-semibold text-white">
-                                        {book.numberOfPages || "—"}
+                                        {book.number_of_pages_median || "—"}
                                     </p>
                                 </div>
                                 <div>
@@ -145,8 +108,8 @@ export const Book = () => {
                                         Rating
                                     </p>
                                     <p className="font-semibold text-yellow-400">
-                                        {book.rating
-                                            ? `★ ${book.rating.toFixed(1)}`
+                                        {book.ratings_average
+                                            ? `★ ${book.ratings_average.toFixed(1)}`
                                             : "No ratings"}
                                     </p>
                                 </div>
@@ -155,21 +118,23 @@ export const Book = () => {
                                         Id
                                     </p>
                                     <p className="font-semibold text-white">
-                                        {bookId}
+                                        {book.key?.replace("/works/", "")}
                                     </p>
                                 </div>
                             </div>
 
-                            {book.subjects.length > 0 && (
+                            {book.subject && book.subject.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-2">
-                                    {book.subjects.map((subject, idx) => (
-                                        <span
-                                            key={idx}
-                                            className="bg-indigo-950/60 text-indigo-200 text-xs px-3 py-1 rounded-full"
-                                        >
-                                            {subject}
-                                        </span>
-                                    ))}
+                                    {book.subject
+                                        .slice(0, 6)
+                                        .map((subject, idx) => (
+                                            <span
+                                                key={idx}
+                                                className="bg-indigo-950/60 text-indigo-200 text-xs px-3 py-1 rounded-full"
+                                            >
+                                                {subject}
+                                            </span>
+                                        ))}
                                 </div>
                             )}
                         </div>
@@ -195,10 +160,10 @@ export const Book = () => {
                                 <span>📚</span> Identifiers
                             </h3>
                             <ul className="space-y-1 text-sm text-[#596272]">
-                                {book.isbn13?.slice(0, 3).map((isbn, i) => (
+                                {book.isbn?.slice(0, 3).map((isbn, i) => (
                                     <li key={i}>ISBN-13: {isbn}</li>
                                 ))}
-                                {(!book.isbn13 || book.isbn13.length === 0) && (
+                                {(!book.isbn || book.isbn.length === 0) && (
                                     <li>No data</li>
                                 )}
                             </ul>
@@ -210,7 +175,7 @@ export const Book = () => {
                             </h3>
                             <div className="space-y-2">
                                 <a
-                                    href={`https://openlibrary.org/works/${book.olid}`}
+                                    href={`https://openlibrary.org/works/${book.key?.replace("/works/", "")}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-indigo-300 hover:text-indigo-200 text-sm block"
@@ -236,50 +201,75 @@ export const Book = () => {
                                 <span>👥</span> Characters & Places
                             </h3>
                             <div className="space-y-2">
-                                <div>
-                                    <p className="text-xs text-[#596272] mb-1">
-                                        Characters
-                                    </p>
-                                    <div className="flex flex-wrap gap-1">
-                                        {book.subject_people?.map(
-                                            (person, idx) => (
-                                                <span
-                                                    key={idx}
-                                                    className="text-xs text-indigo-300"
-                                                >
-                                                    {person}
-                                                    {idx <
-                                                    book.subject_people.length -
-                                                        1
-                                                        ? ","
-                                                        : ""}
-                                                </span>
-                                            ),
-                                        )}
+                                {(book.subject_people?.length || 0) > 0 ? (
+                                    <div>
+                                        <p className="text-xs text-[#596272] mb-1">
+                                            Characters
+                                        </p>
+                                        <div className="flex flex-wrap gap-1">
+                                            {(book.subject_people || [])
+                                                .slice(0, 6)
+                                                .map((person, idx) => (
+                                                    <span
+                                                        key={idx}
+                                                        className="text-xs text-indigo-300"
+                                                    >
+                                                        {person}
+                                                        {idx <
+                                                        (book.subject_people
+                                                            ?.length || 0) -
+                                                            1
+                                                            ? ","
+                                                            : ""}
+                                                    </span>
+                                                ))}
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <p className="text-xs text-[#596272] mb-1">
-                                        Places
-                                    </p>
-                                    <div className="flex flex-wrap gap-1">
-                                        {book.subject_places?.map(
-                                            (place, idx) => (
-                                                <span
-                                                    key={idx}
-                                                    className="text-xs text-indigo-300"
-                                                >
-                                                    {place}
-                                                    {idx <
-                                                    book.subject_places.length -
-                                                        1
-                                                        ? ","
-                                                        : ""}
-                                                </span>
-                                            ),
-                                        )}
+                                ) : (
+                                    <div>
+                                        <p className="text-xs text-[#596272] mb-1">
+                                            Characters
+                                        </p>
+                                        <p className="text-sm text-[#596272] italic">
+                                            No characters listed
+                                        </p>
                                     </div>
-                                </div>
+                                )}
+
+                                {(book.subject_places?.length || 0) > 0 ? (
+                                    <div>
+                                        <p className="text-xs text-[#596272] mb-1">
+                                            Places
+                                        </p>
+                                        <div className="flex flex-wrap gap-1">
+                                            {(book.subject_places || [])
+                                                .slice(0, 4)
+                                                .map((place, idx) => (
+                                                    <span
+                                                        key={idx}
+                                                        className="text-xs text-indigo-300"
+                                                    >
+                                                        {place}
+                                                        {idx <
+                                                        (book.subject_places
+                                                            ?.length || 0) -
+                                                            1
+                                                            ? ","
+                                                            : ""}
+                                                    </span>
+                                                ))}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <p className="text-xs text-[#596272] mb-1">
+                                            Places
+                                        </p>
+                                        <p className="text-sm text-[#596272] italic">
+                                            No places listed
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
