@@ -1,6 +1,6 @@
 const BASE_URL = "https://openlibrary.org/search.json?";
 
-export interface Book {
+export interface BookCard {
     id: string;
     title: string;
     authors: string[];
@@ -30,8 +30,69 @@ export interface OpenLibraryResponse {
     start: number;
 }
 
+export interface OpenLibraryOneBookResponse {
+    description:
+        | {
+              type: string;
+              value: string;
+          }
+        | string;
+    links?: {
+        title: string;
+        url: string;
+        type?: { key: string };
+    }[];
+    title: string;
+    covers: number[];
+    subject_places?: string[];
+    first_publish_date?: string;
+    subject_people?: string[];
+    key: string;
+    authors: {
+        author: {
+            key: string;
+        };
+        type?: { key: string };
+    }[];
+    subjects: string[];
+    subject_times?: string[];
+    excerpts?: {
+        excerpt: string;
+        comment?: string;
+        pages?: string;
+        author?: { key: string };
+    }[];
+    first_publish_year?: number;
+    latest_revision?: number;
+    revision?: number;
+    created?: { type: string; value: string };
+    last_modified?: { type: string; value: string };
+    type?: { key: string };
+    cover_edition?: { key: string };
+    series?: Array<{ series: { key: string }; position: string }>;
+}
+
+export interface BookType {
+    id: string;
+    title: string;
+    subtitle: string;
+    authors: string[];
+    publishYear: number | null;
+    publishers: string[];
+    numberOfPages: number | null;
+    rating: number | null;
+    subjects: string[];
+    description: string;
+    coverId: number | null;
+    isbn13: string[];
+    olid: string;
+    links: { title: string; url: string }[];
+    subject_people: string[];
+    subject_places: string[];
+}
+
 export const renderBooks = (data: OpenLibraryResponse) => {
-    const books: Book[] = data.docs.map((item) => ({
+    const books: BookCard[] = data.docs.map((item) => ({
         id: item.key?.replace("/works/", ""),
         title: item.title || "No name",
         authors: item.author_name || ["Unknown author"],
@@ -124,5 +185,20 @@ export const getBooksByName = async (
     } catch (error) {
         console.error(error);
         return [];
+    }
+};
+
+export const getBookById = async (id: string | undefined) => {
+    if (id === undefined) {
+        return "No book found";
+    }
+    try {
+        const response = await fetch(
+            `https://openlibrary.org/works/${id}.json`,
+        );
+        const data = (await response.json()) as OpenLibraryOneBookResponse;
+        return data;
+    } catch (error) {
+        console.error(error);
     }
 };
