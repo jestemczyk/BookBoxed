@@ -25,7 +25,7 @@ export const BookMiniCard = ({
                     </div>
                 )}
 
-                <div className="p-3">
+                <div className="p-3 h-15">
                     <h3 className="font-medium text-sm line-clamp-2 text-white">
                         {book.title}
                     </h3>
