@@ -1,4 +1,4 @@
-import type { Book } from "@/api/openLibrary";
+import type { BookCard } from "@/api/openLibrary";
 import { createContext, useContext } from "react";
 
 interface booksContextType {
@@ -8,8 +8,8 @@ interface booksContextType {
     setIsLoading: (query: boolean) => void;
     error: string;
     setError: (query: string) => void;
-    books: Book[];
-    setBooks: (query: Book[]) => void;
+    books: BookCard[];
+    setBooks: (query: BookCard[]) => void;
     searchSubmit: (pageNumber: number, isSearch: boolean) => Promise<void>;
     currentPage: number;
     totalPages: number;

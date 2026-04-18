@@ -1,6 +1,6 @@
 const BASE_URL = "https://openlibrary.org/search.json?";
 
-export interface Book {
+export interface BookCard {
     id: string;
     title: string;
     authors: string[];
@@ -30,12 +30,74 @@ export interface OpenLibraryResponse {
     start: number;
 }
 
+export interface OpenLibraryOneBookResponse {
+    docs: BookType[];
+    num_found: number;
+    start: number;
+}
+
+export interface BookType {
+    author_name: string[];
+    cover_i: number;
+    first_publish_year: number;
+    isbn: string[];
+    key: string;
+    number_of_pages_median: number;
+    title: string;
+    subject: string[];
+    ratings_average: number;
+    description?: string;
+    subject_people?: string[];
+    subject_places?: string[];
+    links?: {
+        title: string;
+        url: string;
+        type?: { key: string };
+    }[];
+}
+
+export interface OpenLibraryAuthorResponse {
+    personal_name: string;
+    name: string;
+    bio: string;
+    remote_ids?: {
+        viaf?: string;
+        storygraph?: string;
+        amazon?: string;
+        wikidata?: string;
+        isni?: string;
+        goodreads?: string;
+        project_gutenberg?: string;
+        musicbrainz?: string;
+        bookbrainz?: string;
+        imdb?: string;
+        lc_naf?: string;
+        librarything?: string;
+        librivox?: string;
+        opac_sbn?: string;
+    };
+    birth_date: string;
+    source_records?: string[];
+    links?: {
+        title: string;
+        url: string;
+        type: { key: string };
+    }[];
+    death_date: string;
+    fuller_name: string;
+    alternate_names: string[];
+    photos: number[];
+    key: string;
+    type: { key: string };
+    latest_revision: number;
+    revision: number;
+    created: { type: string; value: string };
+    last_modified: { type: string; value: string };
+}
+
 export const renderBooks = (data: OpenLibraryResponse) => {
-    const books: Book[] = data.docs.map((item) => ({
-        id:
-            item.key?.replace("/works/", "") ||
-            item.cover_edition_key ||
-            Math.random().toString(),
+    const books: BookCard[] = data.docs.map((item) => ({
+        id: item.key?.replace("/works/", ""),
         title: item.title || "No name",
         authors: item.author_name || ["Unknown author"],
         thumbnail: item.cover_i
@@ -54,7 +116,7 @@ export const renderBooks = (data: OpenLibraryResponse) => {
 export const getPopularBooks = async (offset: number) => {
     try {
         const response = await fetch(
-            `${BASE_URL}subject=fiction&sort=rating&limit=50&offset=${offset}`,
+            `${BASE_URL}subject=fiction&sort=rating&limit=50&offset=${offset}&fields=key,title,author_name,first_publish_year,cover_i`,
         );
         const data = (await response.json()) as OpenLibraryResponse;
 
@@ -70,7 +132,7 @@ export const getPopularBooks = async (offset: number) => {
 };
 
 const mkUrl = (query: string, offset: number, filters: string[]) => {
-    let urlQuery = `title:(${query}) OR author_name:(${query})`;
+    let urlQuery = `(title:"${query}" OR author_name:"${query}")`;
     let additionalQuery = "";
     if (filters[0] && filters[0] !== "None") {
         if (filters[0] === "2020s")
@@ -96,7 +158,7 @@ const mkUrl = (query: string, offset: number, filters: string[]) => {
     }
 
     if (filters[1] && filters[1] !== "None") {
-        urlQuery += ` AND subject:"${filters[1].toLowerCase()}"`;
+        urlQuery += ` AND subject:"${filters[1]}"`;
     }
     if (filters[2] && filters[2] !== "None") {
         if (filters[2] === "By rating") additionalQuery = "&sort=rating";
@@ -104,7 +166,7 @@ const mkUrl = (query: string, offset: number, filters: string[]) => {
         if (filters[2] === "By newest") additionalQuery = "&sort=new";
         if (filters[2] === "By latest") additionalQuery = "&sort=old";
     }
-    const urlString = `${BASE_URL}q=${urlQuery}${additionalQuery}&limit=50&offset=${offset}`;
+    const urlString = `${BASE_URL}q=${urlQuery}${additionalQuery}&limit=50&offset=${offset}&fields=key,title,author_name,first_publish_year,cover_i`;
     return urlString;
 };
 
@@ -127,5 +189,24 @@ export const getBooksByName = async (
     } catch (error) {
         console.error(error);
         return [];
+    }
+};
+
+export const getBookById = async (id: string | undefined) => {
+    if (id === undefined) {
+        return "No book found";
+    }
+    try {
+        const response = await fetch(
+            `
+            https://openlibrary.org/search.json?q=key:/works/${id}&fields=key,title,author_name,first_publish_year,number_of_pages_median,ratings_average,cover_i,isbn,subject,subject_people,subject_places,links,description&limit=1
+            
+`,
+        );
+        const data = (await response.json()) as OpenLibraryOneBookResponse;
+        const dataDoc = data.docs[0];
+        return dataDoc;
+    } catch (error) {
+        console.error(error);
     }
 };
