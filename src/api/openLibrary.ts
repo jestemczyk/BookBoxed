@@ -32,10 +32,7 @@ export interface OpenLibraryResponse {
 
 export const renderBooks = (data: OpenLibraryResponse) => {
     const books: Book[] = data.docs.map((item) => ({
-        id:
-            item.key?.replace("/works/", "") ||
-            item.cover_edition_key ||
-            Math.random().toString(),
+        id: item.key?.replace("/works/", ""),
         title: item.title || "No name",
         authors: item.author_name || ["Unknown author"],
         thumbnail: item.cover_i

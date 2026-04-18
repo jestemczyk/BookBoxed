@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { type Book } from "../api/openLibrary";
 export const BookMiniCard = ({ book, key }: { book: Book; key: string }) => {
     return (
-        <Link to={"/book/1"}>
+        <Link to={`/book/${book.id}`}>
             <div
                 key={key}
                 className="border border-gray-200 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow"
