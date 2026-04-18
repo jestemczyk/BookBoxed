@@ -37,7 +37,9 @@ export const BooksComponent: React.FC = () => {
 
     if (books.length === 0) {
         return (
-            <div className="text-center py-8 text-gray-500">No books found</div>
+            <div className="text-center py-8 text-gray-500 ">
+                No books found
+            </div>
         );
     }
 
