@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Trash2 } from "lucide-react";
 import { ShelfMiniBook } from "./ShelfMiniBook";
 
 interface MiniShelfProps {
@@ -6,12 +7,24 @@ interface MiniShelfProps {
     name: string;
     count: number;
     books?: Array<{ title: string; author: string; coverUrl?: string }>;
+    onDelete?: (id: number) => void;
 }
 
-export const MiniShelf = ({ id, name, count, books = [] }: MiniShelfProps) => {
+export const MiniShelf = ({
+    id,
+    name,
+    count,
+    books = [],
+    onDelete,
+}: MiniShelfProps) => {
     const MAX_BOOKS = 7;
     const displayBooks = books.slice(0, MAX_BOOKS);
-    const hasMoreBooks = books.length > MAX_BOOKS;
+
+    const handleDelete = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onDelete?.(id);
+    };
 
     return (
         <Link
@@ -41,25 +54,15 @@ export const MiniShelf = ({ id, name, count, books = [] }: MiniShelfProps) => {
                     </svg>
                 </div>
 
-                {/* Кнопка View All справа */}
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-700/30 hover:bg-gray-700/50 transition-all duration-200 group/view">
-                    <span className="text-xs text-gray-300 group-hover/view:text-indigo-300 transition-colors">
-                        {hasMoreBooks ? `View all ${count}` : "View all"}
+                <button
+                    onClick={handleDelete}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-500/10 hover:bg-red-500/20 transition-all duration-200 group/delete cursor-pointer"
+                >
+                    <Trash2 className="w-3.5 h-3.5 text-red-400 group-hover/delete:text-red-300 transition-colors" />
+                    <span className="text-xs text-red-400 group-hover/delete:text-red-300 transition-colors">
+                        Delete
                     </span>
-                    <svg
-                        className="w-3 h-3 text-gray-400 group-hover/view:text-indigo-300 group-hover/view:translate-x-0.5 transition-all"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                        />
-                    </svg>
-                </div>
+                </button>
             </div>
 
             <div className="relative">
