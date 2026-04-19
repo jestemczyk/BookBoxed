@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { MiniShelf } from "@/components/MiniShelf";
+import { AddNewShelfForm } from "@/components/AddNewShelfForm";
 
 export const Bookshelves = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const shelves = [
         {
             id: 1,
@@ -31,12 +35,19 @@ export const Bookshelves = () => {
         },
     ];
 
+    function addNewShelf() {
+        setIsModalOpen(true);
+    }
+
     return (
         <div className="min-h-screen text-white p-6">
             <div className="container mx-auto max-w-6xl">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold">Bookshelves</h1>
-                    <button className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer">
+                    <button
+                        onClick={addNewShelf}
+                        className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
+                    >
                         + New Shelf
                     </button>
                 </div>
@@ -73,12 +84,17 @@ export const Bookshelves = () => {
                         <p className="text-gray-400 mb-4">
                             Create your first shelf to start organizing books
                         </p>
-                        <button className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg cursor-pointer">
+                        <button
+                            onClick={addNewShelf}
+                            className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg cursor-pointer"
+                        >
                             + Create Shelf
                         </button>
                     </div>
                 )}
             </div>
+
+            {isModalOpen && <AddNewShelfForm setIsModalOpen={setIsModalOpen} />}
         </div>
     );
 };
