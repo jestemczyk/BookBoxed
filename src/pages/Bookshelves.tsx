@@ -35,17 +35,13 @@ export const Bookshelves = () => {
         },
     ];
 
-    function addNewShelf() {
-        setIsModalOpen(true);
-    }
-
     return (
         <div className="min-h-screen text-white p-6">
             <div className="container mx-auto max-w-6xl">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold">Bookshelves</h1>
                     <button
-                        onClick={addNewShelf}
+                        onClick={() => setIsModalOpen(true)}
                         className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
                     >
                         + New Shelf
@@ -85,7 +81,7 @@ export const Bookshelves = () => {
                             Create your first shelf to start organizing books
                         </p>
                         <button
-                            onClick={addNewShelf}
+                            onClick={() => setIsModalOpen(true)}
                             className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg cursor-pointer"
                         >
                             + Create Shelf

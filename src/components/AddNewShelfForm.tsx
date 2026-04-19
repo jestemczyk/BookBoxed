@@ -1,10 +1,37 @@
 import { X, BookMarked } from "lucide-react";
+import { useRef } from "react";
 
 export const AddNewShelfForm = (props: {
     setIsModalOpen: (value: boolean) => void;
 }) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+    function addNewShelf() {
+        if (inputRef.current) {
+            const currentData = JSON.parse(
+                localStorage.getItem("bookboxdShelves") || "[]",
+            );
+            localStorage.setItem(
+                "bookboxdShelves",
+                JSON.stringify(
+                    currentData.push({
+                        id: Date.now(),
+                        name: inputRef.current.value,
+                        books: [],
+                    }),
+                ),
+            );
+
+            inputRef.current.value = "";
+        }
+    }
     return (
-        <div>
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                addNewShelf();
+                props.setIsModalOpen(false);
+            }}
+        >
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40" />
 
             <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md">
@@ -27,6 +54,7 @@ export const AddNewShelfForm = (props: {
                     <div className="p-5">
                         <input
                             type="text"
+                            ref={inputRef}
                             placeholder="Shelf name..."
                             className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                         />
@@ -45,6 +73,6 @@ export const AddNewShelfForm = (props: {
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     );
 };
