@@ -41,7 +41,7 @@ export const Book = () => {
                 <div className="container mx-auto px-4 py-6 max-w-6xl">
                     <BackButton path="/books" title="Back to search" />
 
-                    <div className="grid grid-cols-1 md:grid-cols-[340px_1fr] gap-8 mb-8">
+                    <div className="flex flex-col items-center lg:items-stretch lg:grid lg:grid-cols-[340px_1fr] gap-8 mb-8">
                         <div className="bg-[#1e2a3a] rounded-2xl shadow-xl relative overflow-hidden w-[340px] h-[520px]">
                             {book.cover_i ? (
                                 <>
