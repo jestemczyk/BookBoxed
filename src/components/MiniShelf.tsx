@@ -6,14 +6,14 @@ interface MiniShelfProps {
     id: number;
     name: string;
     books?: Array<{ title: string; author: string; coverUrl?: string }>;
-    onDelete?: (id: number) => void;
+    deleteShelf: (id: number) => void;
 }
 
 export const MiniShelf = ({
     id,
     name,
     books = [],
-    onDelete,
+    deleteShelf,
 }: MiniShelfProps) => {
     const displayBooks = books.slice(0, 7);
     const count = books.length;
@@ -21,7 +21,7 @@ export const MiniShelf = ({
     const handleDelete = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        onDelete?.(id);
+        deleteShelf(id);
     };
 
     return (

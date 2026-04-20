@@ -30,6 +30,12 @@ export const Bookshelves = () => {
         return [];
     });
 
+    function deleteShelf(id: number) {
+        const newShelves = shelves.filter((shelf) => shelf.id !== id);
+        setShelves(newShelves);
+        localStorage.setItem("bookboxdShelves", JSON.stringify(newShelves));
+    }
+
     return (
         <div className="min-h-screen text-white p-6">
             <div className="container mx-auto max-w-6xl">
@@ -50,6 +56,7 @@ export const Bookshelves = () => {
                             id={shelf.id}
                             name={shelf.name}
                             books={shelf.books}
+                            deleteShelf={deleteShelf}
                         />
                     ))}
                 </div>

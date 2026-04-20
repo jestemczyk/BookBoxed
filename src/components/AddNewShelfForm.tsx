@@ -26,6 +26,7 @@ export const AddNewShelfForm = (props: {
             inputRef.current.value = "";
         }
     }
+
     return (
         <form
             onSubmit={(e) => {
