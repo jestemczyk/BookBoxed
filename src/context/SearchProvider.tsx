@@ -1,17 +1,17 @@
 import { useState, type ReactNode } from "react";
-import { SearchContext } from "./SearchContext";
+import { SearchContext, type Shelf } from "./SearchContext";
 import {
     getBooksByName,
     getPopularBooks,
     renderBooks,
-    type Book,
+    type BookCard,
     type OpenLibraryResponse,
 } from "@/api/openLibrary";
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [query, setQuery] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [books, setBooks] = useState<Book[]>([]);
+    const [books, setBooks] = useState<BookCard[]>([]);
     const [error, setError] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -19,6 +19,17 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [yearFilterValue, setYearFilterValue] = useState("None");
     const [genreFilterValue, setGenreFilterValue] = useState("None");
     const [otherFilterValue, setOtherFilterValue] = useState("None");
+    const [shelves, setShelves] = useState<Shelf[]>(() => {
+        try {
+            const saved = localStorage.getItem("bookboxdShelves");
+            if (saved) {
+                return JSON.parse(saved);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return [];
+    });
 
     const searchSubmit = async (pageNumber: number, isSearch: boolean) => {
         try {
@@ -95,6 +106,8 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 setGenreFilterValue,
                 otherFilterValue,
                 setOtherFilterValue,
+                shelves,
+                setShelves,
             }}
         >
             {children}

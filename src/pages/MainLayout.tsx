@@ -6,7 +6,7 @@ export const MainLayout = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navItems = [
         { name: "BOOKS", path: "/books" },
-        { name: "SHELVES", path: "/book-shelves" },
+        { name: "SHELVES", path: "/bookshelves" },
         { name: "SIGN IN", path: "/sign-in" },
         { name: "CREATE ACCOUNT", path: "/registration" },
     ];
