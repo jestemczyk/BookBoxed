@@ -15,7 +15,6 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [error, setError] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [isSearchMode, setIsSearchMode] = useState(false);
     const [yearFilterValue, setYearFilterValue] = useState("None");
     const [genreFilterValue, setGenreFilterValue] = useState("None");
     const [otherFilterValue, setOtherFilterValue] = useState("None");
@@ -31,13 +30,13 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         return [];
     });
 
-    const searchSubmit = async (pageNumber: number, isSearch: boolean) => {
+    const searchSubmit = async (pageNumber: number) => {
         try {
             setIsLoading(true);
 
             const offset = (pageNumber - 1) * 50;
             let booksData: OpenLibraryResponse;
-            if (isSearch) {
+            if (query) {
                 booksData = (await getBooksByName(
                     query,
                     offset,
@@ -67,16 +66,16 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    const toNextPage = (isSearchMode: boolean) => {
+    const toNextPage = () => {
         if (currentPage < totalPages) {
-            searchSubmit(currentPage + 1, isSearchMode);
+            searchSubmit(currentPage + 1);
             setCurrentPage((prev) => prev + 1);
         }
     };
 
-    const toPrevPage = (isSearchMode: boolean) => {
+    const toPrevPage = () => {
         if (currentPage > 1) {
-            searchSubmit(currentPage - 1, isSearchMode);
+            searchSubmit(currentPage - 1);
             setCurrentPage((prev) => prev - 1);
         }
     };
@@ -98,8 +97,6 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 toPrevPage,
                 currentPage,
                 setCurrentPage,
-                isSearchMode,
-                setIsSearchMode,
                 yearFilterValue,
                 setYearFilterValue,
                 genreFilterValue,
