@@ -1,5 +1,8 @@
 import { getBookById, type BookType } from "@/api/openLibrary";
+
 import { BackButton } from "@/components/BackButton";
+import { BookPageSkeleton } from "@/components/BookPageSkeleton";
+
 import { useSearchContext } from "@/context/SearchContext";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
@@ -27,8 +30,8 @@ export const Book = () => {
     }, []);
     if (isLoading) {
         return (
-            <div className="text-center py-8 text-gray-500 h-[1000px]">
-                Loading...
+            <div className="min-h-screen bg-[#101828] text-white">
+                <BookPageSkeleton />
             </div>
         );
     }
@@ -39,7 +42,7 @@ export const Book = () => {
                     <BackButton path="/books" title="Back to search" />
 
                     <div className="grid grid-cols-1 md:grid-cols-[340px_1fr] gap-8 mb-8">
-                        <div className="bg-[#1e2a3a] rounded-2xl shadow-xl relative overflow-hidden">
+                        <div className="bg-[#1e2a3a] rounded-2xl shadow-xl relative overflow-hidden w-[340px] h-[520px]">
                             {book.cover_i ? (
                                 <>
                                     <img
@@ -60,7 +63,7 @@ export const Book = () => {
                                     </div>
                                 </>
                             ) : (
-                                <div className="w-full aspect-[2/3] bg-gray-700 rounded-2xl flex items-center justify-center text-[#596272]">
+                                <div className="w-full aspect-[2/3] flex items-center justify-center text-[#596272]">
                                     📖 No cover
                                 </div>
                             )}
@@ -267,7 +270,7 @@ export const Book = () => {
         );
     } else {
         return (
-            <div className="text-center py-8 text-red-500">
+            <div className="text-center py-8 text-red-500 ">
                 Something went wrong
             </div>
         );
