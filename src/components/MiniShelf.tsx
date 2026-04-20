@@ -26,7 +26,7 @@ export const MiniShelf = ({
 
     return (
         <Link
-            to={`/shelf/${id}`}
+            to={`/bookshelves/${id}`}
             className="flex flex-col bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 hover:bg-gray-800/70 transition-all duration-300 group/shelf border border-gray-700/50 hover:border-gray-600"
         >
             <div className="flex justify-between items-center mb-4">
