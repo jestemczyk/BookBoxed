@@ -1,4 +1,4 @@
-import type { Shelf } from "@/pages/Bookshelves";
+import type { Shelf } from "@/context/SearchContext";
 import { X, BookMarked } from "lucide-react";
 import { useRef } from "react";
 
@@ -10,7 +10,6 @@ export const AddNewShelfForm = (props: {
 
     function addNewShelf() {
         if (inputRef.current && inputRef.current.value.trim()) {
-            // 👈 добавил проверку
             const currentData = JSON.parse(
                 localStorage.getItem("bookboxdShelves") || "[]",
             );
@@ -25,9 +24,9 @@ export const AddNewShelfForm = (props: {
             );
             props.setShelves(currentData);
             inputRef.current.value = "";
-            return true; // успешно создано
+            return true;
         }
-        return false; // пустое имя
+        return false;
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -40,13 +39,11 @@ export const AddNewShelfForm = (props: {
 
     return (
         <>
-            {/* Затемнение - СНАРУЖИ формы */}
             <div
                 className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
                 onClick={() => props.setIsModalOpen(false)}
             />
 
-            {/* Форма */}
             <form onSubmit={handleSubmit}>
                 <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md">
                     <div className="bg-gray-800 rounded-xl shadow-xl">
@@ -61,7 +58,7 @@ export const AddNewShelfForm = (props: {
                                 </h2>
                             </div>
                             <button
-                                type="button" // 👈 ВАЖНО: type="button" чтобы не сабмитить форму
+                                type="button"
                                 onClick={() => props.setIsModalOpen(false)}
                                 className="text-gray-400 hover:text-white transition-colors cursor-pointer"
                             >
@@ -86,7 +83,7 @@ export const AddNewShelfForm = (props: {
 
                         <div className="flex gap-3 p-5 pt-0">
                             <button
-                                type="button" // 👈 ВАЖНО: type="button"
+                                type="button"
                                 onClick={() => props.setIsModalOpen(false)}
                                 className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors cursor-pointer"
                             >

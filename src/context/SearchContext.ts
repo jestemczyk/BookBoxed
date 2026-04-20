@@ -1,6 +1,12 @@
 import type { BookCard } from "@/api/openLibrary";
 import { createContext, useContext } from "react";
 
+export type Shelf = {
+    id: number;
+    name: string;
+    books: BookCard[];
+};
+
 interface booksContextType {
     query: string;
     setQuery: (query: string) => void;
@@ -24,6 +30,8 @@ interface booksContextType {
     setGenreFilterValue: (value: string) => void;
     otherFilterValue: string;
     setOtherFilterValue: (value: string) => void;
+    shelves: Shelf[];
+    setShelves: (value: Shelf[]) => void;
 }
 
 export const SearchContext = createContext<booksContextType | undefined>(

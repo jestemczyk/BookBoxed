@@ -1,11 +1,12 @@
 import { Link } from "react-router";
 import { Trash2 } from "lucide-react";
 import { ShelfMiniBook } from "./ShelfMiniBook";
+import type { BookCard } from "@/api/openLibrary";
 
 interface MiniShelfProps {
     id: number;
     name: string;
-    books?: Array<{ title: string; author: string; coverUrl?: string }>;
+    books?: Array<BookCard>;
     deleteShelf: (id: number) => void;
 }
 
@@ -69,8 +70,8 @@ export const MiniShelf = ({
                         <ShelfMiniBook
                             key={idx}
                             title={book.title}
-                            author={book.author}
-                            coverUrl={book.coverUrl}
+                            author={book.authors[0]}
+                            coverUrl={book.thumbnail}
                         />
                     ))}
                 </div>

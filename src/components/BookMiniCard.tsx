@@ -11,7 +11,7 @@ export const BookMiniCard = ({
         <Link to={`/book/${book.id}`}>
             <div
                 key={key}
-                className="border border-gray-800 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow"
+                className="border border-gray-800 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow w-80 h-120 sm:w-auto"
             >
                 {book.thumbnail ? (
                     <img

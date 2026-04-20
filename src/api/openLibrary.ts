@@ -6,8 +6,6 @@ export interface BookCard {
     authors: string[];
     thumbnail: string;
     publishedDate: string;
-    pageCount: number;
-    categories: string[];
 }
 
 interface OpenLibraryDoc {

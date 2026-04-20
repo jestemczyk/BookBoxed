@@ -1,34 +1,11 @@
 import { useState } from "react";
 import { MiniShelf } from "@/components/MiniShelf";
 import { AddNewShelfForm } from "@/components/AddNewShelfForm";
-
-type Book = {
-    id: string;
-    title: string;
-    author: string;
-    coverUrl: string;
-};
-
-export type Shelf = {
-    id: number;
-    name: string;
-    books: Book[];
-};
+import { useSearchContext } from "@/context/SearchContext";
 
 export const Bookshelves = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const [shelves, setShelves] = useState<Shelf[]>(() => {
-        try {
-            const saved = localStorage.getItem("bookboxdShelves");
-            if (saved) {
-                return JSON.parse(saved);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-        return [];
-    });
+    const { shelves, setShelves } = useSearchContext();
 
     function deleteShelf(id: number) {
         const newShelves = shelves.filter((shelf) => shelf.id !== id);
