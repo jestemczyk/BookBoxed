@@ -16,14 +16,12 @@ interface booksContextType {
     setError: (query: string) => void;
     books: BookCard[];
     setBooks: (query: BookCard[]) => void;
-    searchSubmit: (pageNumber: number, isSearch: boolean) => Promise<void>;
+    searchSubmit: (pageNumber: number) => Promise<void>;
     currentPage: number;
     totalPages: number;
     setCurrentPage: (page: number) => void;
-    toNextPage: (isSearch: boolean) => void;
-    toPrevPage: (isSearch: boolean) => void;
-    isSearchMode: boolean;
-    setIsSearchMode: (query: boolean) => void;
+    toNextPage: () => void;
+    toPrevPage: () => void;
     yearFilterValue: string;
     setYearFilterValue: (value: string) => void;
     genreFilterValue: string;

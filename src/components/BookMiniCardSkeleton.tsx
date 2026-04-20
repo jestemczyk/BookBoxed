@@ -1,6 +1,6 @@
 export const BookMiniCardSkeleton = () => {
     return (
-        <div>
+        <div className="w-80 sm:w-auto">
             <div className="border border-gray-800 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="w-full h-100 bg-gray-800 flex items-center justify-center text-gray-400 text-sm animate-pulse"></div>
 
