@@ -2,38 +2,33 @@ import { useState } from "react";
 import { MiniShelf } from "@/components/MiniShelf";
 import { AddNewShelfForm } from "@/components/AddNewShelfForm";
 
+type Book = {
+    id: string;
+    title: string;
+    author: string;
+    coverUrl: string;
+};
+
+export type Shelf = {
+    id: number;
+    name: string;
+    books: Book[];
+};
+
 export const Bookshelves = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const shelves = [
-        {
-            id: 1,
-            name: "Currently Reading",
-            books: [
-                {
-                    id: "L343H44",
-                    title: "The Hero of Ages",
-                    author: "Brandon Sanderson",
-                    coverUrl:
-                        "https://covers.openlibrary.org/b/id/12345678-L.jpg",
-                },
-                {
-                    id: "I45636H3",
-                    title: "The Name of the Wind",
-                    author: "Patrick Rothfuss",
-                    coverUrl:
-                        "https://covers.openlibrary.org/b/id/12345679-L.jpg",
-                },
-                {
-                    id: "T4639H4",
-                    title: "The Way of Kings",
-                    author: "Brandon Sanderson",
-                    coverUrl:
-                        "https://covers.openlibrary.org/b/id/12345680-L.jpg",
-                },
-            ],
-        },
-    ];
+    const [shelves, setShelves] = useState<Shelf[]>(() => {
+        try {
+            const saved = localStorage.getItem("bookboxdShelves");
+            if (saved) {
+                return JSON.parse(saved);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return [];
+    });
 
     return (
         <div className="min-h-screen text-white p-6">
@@ -90,7 +85,12 @@ export const Bookshelves = () => {
                 )}
             </div>
 
-            {isModalOpen && <AddNewShelfForm setIsModalOpen={setIsModalOpen} />}
+            {isModalOpen && (
+                <AddNewShelfForm
+                    setIsModalOpen={setIsModalOpen}
+                    setShelves={setShelves}
+                />
+            )}
         </div>
     );
 };

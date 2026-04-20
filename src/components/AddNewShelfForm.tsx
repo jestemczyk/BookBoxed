@@ -1,8 +1,10 @@
+import type { Shelf } from "@/pages/Bookshelves";
 import { X, BookMarked } from "lucide-react";
 import { useRef } from "react";
 
 export const AddNewShelfForm = (props: {
     setIsModalOpen: (value: boolean) => void;
+    setShelves: (value: Shelf[]) => void;
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     function addNewShelf() {
@@ -10,16 +12,16 @@ export const AddNewShelfForm = (props: {
             const currentData = JSON.parse(
                 localStorage.getItem("bookboxdShelves") || "[]",
             );
+            currentData.push({
+                id: Date.now(),
+                name: inputRef.current.value,
+                books: [],
+            });
             localStorage.setItem(
                 "bookboxdShelves",
-                JSON.stringify(
-                    currentData.push({
-                        id: Date.now(),
-                        name: inputRef.current.value,
-                        books: [],
-                    }),
-                ),
+                JSON.stringify(currentData),
             );
+            props.setShelves(currentData);
 
             inputRef.current.value = "";
         }
@@ -67,7 +69,10 @@ export const AddNewShelfForm = (props: {
                         >
                             Cancel
                         </button>
-                        <button className="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors cursor-pointer">
+                        <button
+                            type="submit"
+                            className="flex-1 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors cursor-pointer"
+                        >
                             Create
                         </button>
                     </div>
