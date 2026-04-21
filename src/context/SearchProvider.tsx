@@ -18,6 +18,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [yearFilterValue, setYearFilterValue] = useState("None");
     const [genreFilterValue, setGenreFilterValue] = useState("None");
     const [otherFilterValue, setOtherFilterValue] = useState("None");
+    const [backButtonPath, setBackButtonPath] = useState("/books");
     const [shelves, setShelves] = useState<Shelf[]>(() => {
         try {
             const saved = localStorage.getItem("bookboxdShelves");
@@ -80,6 +81,50 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const onAddToShelf = (
+        shelfId: number,
+        bookId: string,
+        bookTitle: string,
+        bookAuthors: string[],
+        bookThumbnail: string,
+        bookPublishYear: number,
+    ) => {
+        const newBook = {
+            id: bookId,
+            title: bookTitle,
+            authors: bookAuthors,
+            thumbnail: bookThumbnail,
+            publishedDate: String(bookPublishYear),
+        };
+        const updatedShelves = shelves.map((shelf) => {
+            if (shelf.id === shelfId) {
+                return {
+                    ...shelf,
+                    books: [...shelf.books, newBook],
+                };
+            }
+            return shelf;
+        });
+
+        setShelves(updatedShelves);
+        localStorage.setItem("bookboxdShelves", JSON.stringify(updatedShelves));
+    };
+
+    const onRemoveFromShelf = (shelfId: number, bookId: string) => {
+        const updatedShelves = shelves.map((shelf) => {
+            if (shelf.id === shelfId) {
+                return {
+                    ...shelf,
+                    books: shelf.books.filter((book) => book.id !== bookId),
+                };
+            }
+            return shelf;
+        });
+
+        setShelves(updatedShelves);
+        localStorage.setItem("bookboxdShelves", JSON.stringify(updatedShelves));
+    };
+
     return (
         <SearchContext.Provider
             value={{
@@ -105,6 +150,10 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 setOtherFilterValue,
                 shelves,
                 setShelves,
+                onAddToShelf,
+                onRemoveFromShelf,
+                backButtonPath,
+                setBackButtonPath,
             }}
         >
             {children}

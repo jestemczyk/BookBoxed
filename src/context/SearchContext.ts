@@ -30,6 +30,18 @@ interface booksContextType {
     setOtherFilterValue: (value: string) => void;
     shelves: Shelf[];
     setShelves: (value: Shelf[]) => void;
+    onAddToShelf: (
+        shelfId: number,
+        bookId: string,
+        bookTitle: string,
+        bookAuthors: string[],
+        bookThumbnail: string,
+        bookPublishYear: number,
+    ) => void;
+
+    onRemoveFromShelf: (shelfId: number, bookId: string) => void;
+    backButtonPath: string;
+    setBackButtonPath: (value: string) => void;
 }
 
 export const SearchContext = createContext<booksContextType | undefined>(
