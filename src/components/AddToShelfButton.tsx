@@ -28,18 +28,15 @@ export const AddToShelfButton = ({
 }: AddToShelfButtonProps) => {
     const { shelves, onAddToShelf, onRemoveFromShelf } = useSearchContext();
     const [selectedShelves, setSelectedShelves] = useState<number[]>(() => {
-        // Вычисляем при монтировании
         return shelves
             .filter((shelf) => shelf.books.some((book) => book.id === bookId))
             .map((shelf) => shelf.id);
     });
     const [isOpen, setIsOpen] = useState(false);
 
-    // Обновляем при открытии меню (актуальные данные)
     const handleOpenChange = (open: boolean) => {
         setIsOpen(open);
         if (open) {
-            // При открытии обновляем состояние на актуальные данные
             const currentShelvesWithBook = shelves
                 .filter((shelf) =>
                     shelf.books.some((book) => book.id === bookId),
@@ -82,7 +79,7 @@ export const AddToShelfButton = ({
                         <BookPlus className="w-5 h-5" />
                         <span className="text-base font-medium">
                             {selectedShelves.length > 0
-                                ? `On ${selectedShelves.length} shelf${selectedShelves.length > 1 ? "s" : ""}`
+                                ? `On ${selectedShelves.length} shel${selectedShelves.length > 1 ? "ves" : "f"}`
                                 : "Add to shelf"}
                         </span>
                     </Button>

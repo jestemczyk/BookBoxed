@@ -109,7 +109,17 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const onRemoveFromShelf = (shelfId: number, bookId: string) => {
-        console.log(`Remove book ${bookId} from shelf ${shelfId}`);
+        const updatedShelves = shelves.map((shelf) => {
+            if (shelf.id === shelfId) {
+                return {
+                    ...shelf,
+                    books: shelf.books.filter((book) => book.id !== bookId),
+                };
+            }
+            return shelf;
+        });
+
+        setShelves(updatedShelves);
     };
 
     return (
