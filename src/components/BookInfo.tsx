@@ -1,4 +1,5 @@
 import React from "react";
+import { AddToShelfButton } from "./AddToShelfButton";
 
 export const BookInfo = (props: {
     title: string;
@@ -10,7 +11,7 @@ export const BookInfo = (props: {
     subject: string[];
 }) => {
     return (
-        <div className="bg-[#1e2a3a] rounded-2xl p-6 shadow-xl">
+        <div className="bg-[#1e2a3a] rounded-2xl p-6 shadow-xl relative">
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-1">
                 {props.title}
             </h1>
@@ -56,7 +57,7 @@ export const BookInfo = (props: {
                 </div>
             </div>
             {props.subject && props.subject.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="flex flex-wrap gap-2 mt-2 mb-5">
                     {props.subject.slice(0, 6).map((subject, idx) => (
                         <span
                             key={idx}
@@ -67,6 +68,10 @@ export const BookInfo = (props: {
                     ))}
                 </div>
             )}
+            <AddToShelfButton
+                bookId={props.bookKey.replace("/works/", "")}
+                bookTitle={props.title}
+            />
         </div>
     );
 };
