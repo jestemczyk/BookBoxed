@@ -97,7 +97,10 @@ export const AddToShelfButton = ({
                     {shelves.map((shelf) => (
                         <DropdownMenuItem
                             key={shelf.id}
-                            onClick={() => handleAddToShelf(shelf.id)}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleAddToShelf(shelf.id);
+                            }}
                             className="cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group"
                         >
                             <div className="flex items-center justify-between w-full">
