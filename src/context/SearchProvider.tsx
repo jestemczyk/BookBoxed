@@ -80,6 +80,38 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const onAddToShelf = (
+        shelfId: number,
+        bookId: string,
+        bookTitle: string,
+        bookAuthors: string[],
+        bookThumbnail: string,
+        bookPublishYear: number,
+    ) => {
+        const newBook = {
+            id: bookId,
+            title: bookTitle,
+            authors: bookAuthors,
+            thumbnail: bookThumbnail,
+            publishedDate: String(bookPublishYear),
+        };
+        const updatedShelves = shelves.map((shelf) => {
+            if (shelf.id === shelfId) {
+                return {
+                    ...shelf,
+                    books: [...shelf.books, newBook],
+                };
+            }
+            return shelf;
+        });
+
+        setShelves(updatedShelves);
+    };
+
+    const onRemoveFromShelf = (shelfId: number, bookId: string) => {
+        console.log(`Remove book ${bookId} from shelf ${shelfId}`);
+    };
+
     return (
         <SearchContext.Provider
             value={{
@@ -105,6 +137,8 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 setOtherFilterValue,
                 shelves,
                 setShelves,
+                onAddToShelf,
+                onRemoveFromShelf,
             }}
         >
             {children}

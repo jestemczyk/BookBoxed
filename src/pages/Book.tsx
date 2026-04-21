@@ -57,6 +57,7 @@ export const Book = () => {
                             firstPublishYear={book.first_publish_year}
                             numOfPages={book.number_of_pages_median}
                             rating={book.ratings_average}
+                            thumbnail={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
                             bookKey={book.key}
                             subject={book.subject}
                         />

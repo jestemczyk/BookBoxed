@@ -8,6 +8,7 @@ export const BookInfo = (props: {
     numOfPages: number;
     rating: number;
     bookKey: string;
+    thumbnail: string;
     subject: string[];
 }) => {
     return (
@@ -71,6 +72,9 @@ export const BookInfo = (props: {
             <AddToShelfButton
                 bookId={props.bookKey.replace("/works/", "")}
                 bookTitle={props.title}
+                bookThumbnail={props.thumbnail}
+                bookPublishYear={props.firstPublishYear}
+                bookAuthors={[props.authorName]}
             />
         </div>
     );
