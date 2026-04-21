@@ -4,7 +4,7 @@ import { useSearchContext, type Shelf } from "@/context/SearchContext";
 import { useParams } from "react-router";
 
 export const Bookshelf = () => {
-    const { shelves } = useSearchContext();
+    const { shelves, onRemoveFromShelf } = useSearchContext();
     const { shelfId } = useParams();
     const currentShelf = shelves.find(
         (shelf: Shelf) => shelf.id === Number(shelfId),
@@ -12,13 +12,18 @@ export const Bookshelf = () => {
     if (currentShelf) {
         return (
             <section>
-                <BackButton path="/bookshelves" title="Back to shelves" />
+                <BackButton path="/bookshelves" />
                 <h1 className="mb-5 text-3xl font-bold ">
                     {currentShelf.name}
                 </h1>
                 <div className="flex flex-col items-center sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
                     {currentShelf.books.map((book) => (
-                        <BookMiniCard key={book.id} book={book} />
+                        <BookMiniCard
+                            key={book.id}
+                            book={book}
+                            onRemoveFromShelf={onRemoveFromShelf}
+                            shelfId={Number(shelfId)}
+                        />
                     ))}
                 </div>
             </section>
