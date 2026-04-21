@@ -106,6 +106,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         });
 
         setShelves(updatedShelves);
+        localStorage.setItem("bookboxdShelves", JSON.stringify(updatedShelves));
     };
 
     const onRemoveFromShelf = (shelfId: number, bookId: string) => {
@@ -120,6 +121,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         });
 
         setShelves(updatedShelves);
+        localStorage.setItem("bookboxdShelves", JSON.stringify(updatedShelves));
     };
 
     return (
