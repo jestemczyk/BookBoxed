@@ -15,6 +15,7 @@ export const BookMiniCard = ({
     shelfId?: number;
 }) => {
     const { setBackButtonPath } = useSearchContext();
+
     const handleRemove = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
@@ -24,7 +25,9 @@ export const BookMiniCard = ({
     };
 
     return (
-        <div className="relative">
+        <div className="relative group">
+            {" "}
+            {/* 👈 group перенесён сюда */}
             <Link
                 to={`/book/${book.id}`}
                 onClick={() => {
@@ -37,7 +40,7 @@ export const BookMiniCard = ({
             >
                 <div
                     key={key}
-                    className="border border-gray-800 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow w-80 h-120 sm:w-auto relative group"
+                    className="border border-gray-800 rounded-lg cursor-pointer overflow-hidden hover:shadow-lg transition-shadow w-80 h-120 sm:w-auto"
                 >
                     {book.thumbnail ? (
                         <img
@@ -66,11 +69,10 @@ export const BookMiniCard = ({
                     </div>
                 </div>
             </Link>
-
             {onRemoveFromShelf && shelfId && (
                 <button
                     onClick={handleRemove}
-                    className="absolute top-2 right-2 p-2 bg-red-600 hover:bg-red-700 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg cursor-pointer z-10"
+                    className="absolute top-2 right-2 p-2 bg-red-700 hover:bg-red-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg cursor-pointer z-10"
                     title="Remove from shelf"
                 >
                     <Trash2 className="w-4 h-4 text-white" />
