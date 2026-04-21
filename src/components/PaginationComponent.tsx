@@ -9,15 +9,17 @@ import {
 import { useSearchContext } from "@/context/SearchContext";
 
 export const PaginationComponent = () => {
-    const { currentPage, totalPages, toNextPage, toPrevPage, isSearchMode } =
+    const { currentPage, totalPages, toNextPage, toPrevPage } =
         useSearchContext();
 
     const handlePrev = () => {
-        toPrevPage(isSearchMode);
+        toPrevPage();
+        window.scrollTo(0, 0);
     };
 
     const handleNext = () => {
-        toNextPage(isSearchMode);
+        toNextPage();
+        window.scrollTo(0, 0);
     };
 
     return (
