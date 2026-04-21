@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-export const BackButton = (props: { path: string; title: string }) => {
+export const BackButton = (props: { path: string }) => {
     return (
         <Link
             to={props.path}
@@ -19,7 +19,7 @@ export const BackButton = (props: { path: string; title: string }) => {
                     d="M10 19l-7-7m0 0l7-7m-7 7h18"
                 />
             </svg>
-            <span className="text-sm font-medium">{props.title}</span>
+            <span className="text-sm font-medium">Back</span>
         </Link>
     );
 };

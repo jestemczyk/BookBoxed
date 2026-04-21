@@ -18,6 +18,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [yearFilterValue, setYearFilterValue] = useState("None");
     const [genreFilterValue, setGenreFilterValue] = useState("None");
     const [otherFilterValue, setOtherFilterValue] = useState("None");
+    const [backButtonPath, setBackButtonPath] = useState("/books");
     const [shelves, setShelves] = useState<Shelf[]>(() => {
         try {
             const saved = localStorage.getItem("bookboxdShelves");
@@ -151,6 +152,8 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                 setShelves,
                 onAddToShelf,
                 onRemoveFromShelf,
+                backButtonPath,
+                setBackButtonPath,
             }}
         >
             {children}

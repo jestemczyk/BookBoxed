@@ -13,7 +13,7 @@ import { useParams } from "react-router";
 
 export const Book = () => {
     const { bookId } = useParams<{ bookId: string }>();
-    const { isLoading, setIsLoading } = useSearchContext();
+    const { isLoading, setIsLoading, backButtonPath } = useSearchContext();
     const [book, setBook] = useState<BookType | null>(null);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export const Book = () => {
         return (
             <div className="min-h-screen bg-[#101828] text-white">
                 <div className="container mx-auto px-4 py-6 max-w-6xl">
-                    <BackButton path="/books" title="Back to search" />
+                    <BackButton path={backButtonPath} />
 
                     <div className="flex flex-col items-center lg:items-stretch lg:grid lg:grid-cols-[340px_1fr] gap-8 mb-8">
                         <BookCover

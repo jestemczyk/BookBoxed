@@ -40,6 +40,8 @@ interface booksContextType {
     ) => void;
 
     onRemoveFromShelf: (shelfId: number, bookId: string) => void;
+    backButtonPath: string;
+    setBackButtonPath: (value: string) => void;
 }
 
 export const SearchContext = createContext<booksContextType | undefined>(
