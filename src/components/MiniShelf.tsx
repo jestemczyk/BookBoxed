@@ -18,6 +18,7 @@ export const MiniShelf = ({
 }: MiniShelfProps) => {
     const displayBooks = books.slice(0, 7);
     const count = books.length;
+    const hasMoreBooks = books.length > 7;
 
     const handleDelete = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -28,14 +29,14 @@ export const MiniShelf = ({
     return (
         <Link
             to={`/bookshelves/${id}`}
-            className="flex flex-col bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 hover:bg-gray-800/70 transition-all duration-300 group/shelf border border-gray-700/50 hover:border-gray-600"
+            className="flex flex-col bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 sm:p-5 hover:bg-gray-800/70 transition-all duration-300 group/shelf border border-gray-700/50 hover:border-gray-600"
         >
-            <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-semibold text-white group-hover/shelf:text-indigo-300 transition-colors">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="text-lg sm:text-xl font-semibold text-white group-hover/shelf:text-indigo-300 transition-colors">
                         {name}
                     </h2>
-                    <span className="text-gray-400 text-sm group-hover/shelf:text-indigo-300 transition-colors">
+                    <span className="text-gray-400 text-xs sm:text-sm group-hover/shelf:text-indigo-300 transition-colors">
                         ({count} books)
                     </span>
                     <svg
@@ -55,9 +56,9 @@ export const MiniShelf = ({
 
                 <button
                     onClick={handleDelete}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-500/10 hover:bg-red-500/20 transition-all duration-200 group/delete cursor-pointer"
+                    className="flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-red-500/10 hover:bg-red-500/20 transition-all duration-200 group/delete cursor-pointer"
                 >
-                    <Trash2 className="w-3.5 h-3.5 text-red-400 group-hover/delete:text-red-300 transition-colors" />
+                    <Trash2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-400 group-hover/delete:text-red-300 transition-colors" />
                     <span className="text-xs text-red-400 group-hover/delete:text-red-300 transition-colors">
                         Delete
                     </span>
@@ -65,7 +66,7 @@ export const MiniShelf = ({
             </div>
 
             <div className="relative">
-                <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+                <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
                     {displayBooks.map((book, idx) => (
                         <ShelfMiniBook
                             key={idx}
@@ -74,6 +75,19 @@ export const MiniShelf = ({
                             coverUrl={book.thumbnail}
                         />
                     ))}
+
+                    {hasMoreBooks && (
+                        <div className="flex items-center justify-center min-w-[100px] group/seeall">
+                            <div className="text-center">
+                                <div className="text-3xl font-bold text-gray-500 group-hover/shelf:text-indigo-400 transition-colors">
+                                    +{books.length - 7}
+                                </div>
+                                <div className="text-xs text-gray-500 group-hover/shelf:text-indigo-400 transition-colors mt-1">
+                                    more
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </Link>
