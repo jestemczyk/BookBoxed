@@ -94,33 +94,37 @@ export const AddToShelfButton = ({
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator className="bg-gray-700" />
 
-                    {shelves.map((shelf) => (
-                        <DropdownMenuItem
-                            key={shelf.id}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleAddToShelf(shelf.id);
-                            }}
-                            className="cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group"
-                        >
-                            <div className="flex items-center justify-between w-full">
-                                <div className="flex items-center gap-3">
-                                    <Library className="w-4 h-4 text-gray-400 group-hover:text-indigo-400" />
-                                    <span className="text-sm">
-                                        {shelf.name}
-                                    </span>
+                    {shelves.length > 0 ? (
+                        shelves.map((shelf) => (
+                            <DropdownMenuItem
+                                key={shelf.id}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleAddToShelf(shelf.id);
+                                }}
+                                className="cursor-pointer hover:bg-indigo-600/20 focus:bg-indigo-600/20 group"
+                            >
+                                <div className="flex items-center justify-between w-full">
+                                    <div className="flex items-center gap-3">
+                                        <Library className="w-4 h-4 text-gray-400 group-hover:text-indigo-400" />
+                                        <span className="text-sm">
+                                            {shelf.name}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xs text-gray-500">
+                                            {shelf.books.length}
+                                        </span>
+                                        {isOnShelf(shelf.id) && (
+                                            <Check className="w-4 h-4 text-green-500" />
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-xs text-gray-500">
-                                        {shelf.books.length}
-                                    </span>
-                                    {isOnShelf(shelf.id) && (
-                                        <Check className="w-4 h-4 text-green-500" />
-                                    )}
-                                </div>
-                            </div>
-                        </DropdownMenuItem>
-                    ))}
+                            </DropdownMenuItem>
+                        ))
+                    ) : (
+                        <p className="ml-2 mb-1 text-gray-400">No shelves</p>
+                    )}
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
