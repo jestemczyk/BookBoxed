@@ -94,6 +94,24 @@ export const Home = () => {
                     />
                 </div>
             </div>
+
+            <div className="container mx-auto px-4 py-20">
+                <div className="max-w-4xl mx-auto bg-gradient-to-r from-indigo-600/10 to-purple-600/10 rounded-2xl p-8 sm:p-12 text-center border border-indigo-500/20">
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+                        Ready to start your journey?
+                    </h2>
+                    <p className="text-gray-400 mb-6">
+                        Join thousands of readers who already organize their library with BookBoxd
+                    </p>
+                    <Link
+                        to="/books"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-all"
+                    >
+                        Get started
+                        <ArrowRight className="w-4 h-4" />
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 };
