@@ -1,5 +1,6 @@
 import { Link } from "react-router";
-import { ArrowRight, Library, Sparkles } from "lucide-react";
+import { BookOpen, TrendingUp, ArrowRight, Library, Sparkles } from "lucide-react";
+import { MainPageInfoCard } from "@/components/MainPageInfoCard";
 
 export const Home = () => {
     return (
@@ -45,6 +46,52 @@ export const Home = () => {
                             </Link>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div className="border-t border-gray-800/50 backdrop-blur-sm">
+                <div className="container mx-auto px-4 py-12">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto text-center">
+                        <div className="space-y-2">
+                            <div className="text-3xl font-bold text-indigo-400">10k+</div>
+                            <div className="text-sm text-gray-500">Books in catalog</div>
+                        </div>
+                        <div className="space-y-2">
+                            <div className="text-3xl font-bold text-indigo-400">500+</div>
+                            <div className="text-sm text-gray-500">Active readers</div>
+                        </div>
+                        <div className="space-y-2">
+                            <div className="text-3xl font-bold text-indigo-400">∞</div>
+                            <div className="text-sm text-gray-500">Stories to discover</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="container mx-auto px-4 py-20">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold mb-4">Everything you need</h2>
+                    <p className="text-gray-400 max-w-2xl mx-auto">
+                        Organize your reading life with powerful tools designed for book lovers
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <MainPageInfoCard
+                        title="Track reading"
+                        text="Log your progress, write reviews, and never lose your place again"
+                        Icon={BookOpen}
+                    />
+                    <MainPageInfoCard
+                        title="Custom shelves"
+                        text="Create custom shelves to organize books your way"
+                        Icon={Library}
+                    />
+                    <MainPageInfoCard
+                        title="Discover"
+                        text="Find your next favorite book with personalized recommendations"
+                        Icon={TrendingUp}
+                    />
                 </div>
             </div>
         </div>
