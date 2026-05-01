@@ -27,6 +27,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             }
         } catch (error) {
             console.error(error);
+            localStorage.clear();
         }
         return [];
     });
@@ -46,9 +47,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
                     otherFilterValue,
                 )) as OpenLibraryResponse;
             } else {
-                booksData = (await getPopularBooks(
-                    offset,
-                )) as OpenLibraryResponse;
+                booksData = (await getPopularBooks(offset)) as OpenLibraryResponse;
             }
 
             if (booksData && booksData.docs) {

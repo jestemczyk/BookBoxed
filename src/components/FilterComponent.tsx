@@ -20,20 +20,22 @@ export const FilterComponent = ({
     value: string;
     setValue: (value: string) => void;
 }) => {
+    const selectedFilter = filters.find((f) => f === value);
+    const buttonText = !selectedFilter || selectedFilter === filters[0] ? title : selectedFilter;
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className="" asChild>
+            <DropdownMenuTrigger asChild>
                 <Button
                     variant="outline"
-                    className="border-[#6a7282] text-white hover:bg-[#101828] hover:text-white transition-colors"
+                    className="border-[#6a7282] text-white hover:bg-[#101828] hover:text-white transition-colors cursor-pointer"
                 >
-                    {title}
+                    {buttonText}
                 </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="w-32 bg-[#131313] border border-[#6a7282] shadow-lg rounded-lg">
+            <DropdownMenuContent className="w-32 bg-[#131313] border border-[#6a7282] shadow-lg rounded-lg h-[300px] overflow-y-auto">
                 <DropdownMenuGroup>
-                    <DropdownMenuLabel className="text-white font-semibold">
+                    <DropdownMenuLabel className="text-white font-semibold sticky top-0 bg-[#131313]">
                         Choose option
                     </DropdownMenuLabel>
 
