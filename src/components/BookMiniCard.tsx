@@ -26,8 +26,6 @@ export const BookMiniCard = ({
 
     return (
         <div className="relative group">
-            {" "}
-            {/* 👈 group перенесён сюда */}
             <Link
                 to={`/book/${book.id}`}
                 onClick={() => {
@@ -59,12 +57,8 @@ export const BookMiniCard = ({
                             {book.title}
                         </h3>
                         <div className="flex justify-between">
-                            <p className="text-xs text-gray-500 mt-1">
-                                {book.authors[0]}
-                            </p>
-                            <p className="text-xs text-gray-500 mt-1">
-                                {book.publishedDate}
-                            </p>
+                            <p className="text-xs text-gray-500 mt-1">{book.authors[0]}</p>
+                            <p className="text-xs text-gray-500 mt-1">{book.publishedDate}</p>
                         </div>
                     </div>
                 </div>
@@ -72,7 +66,7 @@ export const BookMiniCard = ({
             {onRemoveFromShelf && shelfId && (
                 <button
                     onClick={handleRemove}
-                    className="absolute top-2 right-2 p-2 bg-red-700 hover:bg-red-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg cursor-pointer z-10"
+                    className="absolute top-2 right-2 p-2 bg-red-700 hover:bg-red-800 rounded-lg opacity-100 xl:opacity-0 xl:group-hover:opacity-100 transition-opacity duration-200 shadow-lg cursor-pointer z-10"
                     title="Remove from shelf"
                 >
                     <Trash2 className="w-4 h-4 text-white" />
