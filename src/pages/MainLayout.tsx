@@ -1,15 +1,16 @@
+import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router";
 
 export const MainLayout = () => {
-    const location = useLocation();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navItems = [
         { name: "BOOKS", path: "/books" },
         { name: "SHELVES", path: "/bookshelves" },
-        { name: "SIGN IN", path: "/sign-in" },
-        { name: "CREATE ACCOUNT", path: "/registration" },
     ];
+    const location = useLocation();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { user, signIn, signOut } = useAuth();
+
     return (
         <>
             <header className="border-b bg-gray-900 border-t border-gray-800">
@@ -23,13 +24,12 @@ export const MainLayout = () => {
 
                         <div className="hidden md:flex items-center space-x-6">
                             {navItems.map((item) => {
-                                const isActive =
-                                    location.pathname === item.path;
+                                const isActive = location.pathname === item.path;
                                 return (
                                     <Link
                                         key={item.path}
                                         to={item.path}
-                                        className={`text-sm font-medium tracking-wide transition-colors ${
+                                        className={`cursor-pointer text-sm font-medium tracking-wide transition-colors ${
                                             isActive
                                                 ? "text-white"
                                                 : "text-gray-500 hover:text-white"
@@ -39,6 +39,27 @@ export const MainLayout = () => {
                                     </Link>
                                 );
                             })}
+                            {user ? (
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        className="cursor-pointer text-sm font-medium tracking-wide transition-colors text-gray-500 hover:text-white"
+                                        onClick={signOut}
+                                    >
+                                        LOG OUT
+                                    </button>
+                                    <img
+                                        src={user.photoURL || undefined}
+                                        className="w-8 h-8 rounded-full"
+                                    />
+                                </div>
+                            ) : (
+                                <button
+                                    className="cursor-pointer text-sm font-medium tracking-wide transition-colors text-gray-500 hover:text-white"
+                                    onClick={signIn}
+                                >
+                                    LOG IN
+                                </button>
+                            )}
                         </div>
 
                         <button
@@ -73,17 +94,14 @@ export const MainLayout = () => {
                     {isMenuOpen && (
                         <div className="md:hidden mt-4 pb-4 border-t border-gray-100">
                             {navItems.map((item) => {
-                                const isActive =
-                                    location.pathname === item.path;
+                                const isActive = location.pathname === item.path;
                                 return (
                                     <Link
                                         key={item.path}
                                         to={item.path}
                                         onClick={() => setIsMenuOpen(false)}
                                         className={`block py-3 text-sm font-medium tracking-wide transition-colors ${
-                                            isActive
-                                                ? "text-white"
-                                                : "text-gray-500"
+                                            isActive ? "text-white" : "text-gray-500"
                                         }`}
                                     >
                                         {item.name}
@@ -102,11 +120,8 @@ export const MainLayout = () => {
                     <div className="text-center max-w-3xl mx-auto space-y-3">
                         <p className="text-xs text-gray-300 leading-relaxed">
                             © 2026 BookBoxd Limited. Made by fans in{" "}
-                            <span className="line-through text-gray-400">
-                                Minsk
-                            </span>{" "}
-                            <span className="text-gray-400">Mensk</span>,
-                            Belarus. Book data from{" "}
+                            <span className="line-through text-gray-400">Minsk</span>{" "}
+                            <span className="text-gray-400">Mensk</span>, Belarus. Book data from{" "}
                             <a
                                 href="https://developers.google.com/books"
                                 target="_blank"
@@ -119,9 +134,8 @@ export const MainLayout = () => {
                         </p>
 
                         <p className="text-xs text-gray-200 italic leading-relaxed">
-                            and Modern Romance. the hood on the Academy's new
-                            award. spectacularly niche moments in this season's
-                            literature.
+                            and Modern Romance. the hood on the Academy's new award. spectacularly
+                            niche moments in this season's literature.
                         </p>
                     </div>
                 </div>
