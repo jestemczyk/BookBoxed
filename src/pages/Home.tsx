@@ -1,10 +1,13 @@
 import { Link } from "react-router";
 import { BookOpen, TrendingUp, ArrowRight, Library, Sparkles } from "lucide-react";
 import { MainPageInfoCard } from "@/components/MainPageInfoCard";
+import { useAuth } from "@/context/AuthContext";
 
 export const Home = () => {
+    const { user, signIn } = useAuth();
+
     return (
-        <div className="min-h-screen  text-white">
+        <div className="min-h-screen text-white">
             <div className="relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 via-purple-600/5 to-transparent"></div>
                 <div className="absolute top-20 -left-20 w-72 h-72 bg-indigo-600/20 rounded-full blur-3xl"></div>
@@ -37,13 +40,22 @@ export const Home = () => {
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
 
-                            <Link
-                                to="/bookshelves"
-                                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-800/50 hover:bg-gray-800 rounded-lg font-medium border border-gray-700 transition-all cursor-pointer"
-                            >
-                                <Library className="w-4 h-4" />
-                                My shelves
-                            </Link>
+                            {user ? (
+                                <Link
+                                    to="/bookshelves"
+                                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-800/50 hover:bg-gray-800 rounded-lg font-medium border border-gray-700 transition-all cursor-pointer"
+                                >
+                                    <Library className="w-4 h-4" />
+                                    My shelves
+                                </Link>
+                            ) : (
+                                <button
+                                    onClick={signIn}
+                                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-800/50 hover:bg-gray-800 rounded-lg font-medium border border-gray-700 transition-all cursor-pointer"
+                                >
+                                    Log in
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -103,13 +115,23 @@ export const Home = () => {
                     <p className="text-gray-400 mb-6">
                         Join thousands of readers who already organize their library with BookBoxd
                     </p>
-                    <Link
-                        to="/books"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-all"
-                    >
-                        Get started
-                        <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    {user ? (
+                        <Link
+                            to="/books"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-all"
+                        >
+                            Get started
+                            <ArrowRight className="w-4 h-4" />
+                        </Link>
+                    ) : (
+                        <button
+                            onClick={signIn}
+                            className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-all"
+                        >
+                            Log in
+                            <ArrowRight className="w-4 h-4" />
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

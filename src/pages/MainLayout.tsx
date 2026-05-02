@@ -4,6 +4,7 @@ import { Link, Outlet, useLocation } from "react-router";
 
 export const MainLayout = () => {
     const navItems = [
+        { name: "HOME", path: "/" },
         { name: "BOOKS", path: "/books" },
         { name: "SHELVES", path: "/bookshelves" },
     ];
