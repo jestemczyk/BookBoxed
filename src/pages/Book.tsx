@@ -71,8 +71,8 @@ export const Book = () => {
                             <p className="text-white leading-relaxed">
                                 {typeof book.description === "string"
                                     ? book.description
-                                    : (book.description as { value: string })
-                                          ?.value || "No description available"}
+                                    : (book.description as { value: string })?.value ||
+                                      "No description available"}
                             </p>
                         </div>
                     )}
@@ -83,9 +83,7 @@ export const Book = () => {
                                 {book.isbn?.slice(0, 3).map((isbn, i) => (
                                     <li key={i}>ISBN-13: {isbn}</li>
                                 ))}
-                                {(!book.isbn || book.isbn.length === 0) && (
-                                    <li>No data</li>
-                                )}
+                                {(!book.isbn || book.isbn.length === 0) && <li>No data</li>}
                             </ul>
                         </BookInfoCard>
                         <BookInfoCard title="Links" Icon={Link}>
@@ -116,10 +114,6 @@ export const Book = () => {
             </div>
         );
     } else {
-        return (
-            <div className="text-center py-8 text-red-500 ">
-                Something went wrong
-            </div>
-        );
+        return <div className="text-center py-8 text-red-500 ">Something went wrong</div>;
     }
 };
