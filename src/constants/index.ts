@@ -1,0 +1,32 @@
+export const FILTERS = {
+    YEAR: [
+        "None",
+        "2020s",
+        "2010s",
+        "2000s",
+        "1990s",
+        "1980s",
+        "1970s",
+        "1960s",
+        "1950s",
+        "1940s",
+        "later",
+    ],
+
+    GENRE: [
+        "None",
+        "Fiction",
+        "Fantasy",
+        "Science fiction",
+        "Mystery",
+        "Romance",
+        "Biography",
+        "History",
+        "Poetry",
+        "Children's stories",
+        "Juvenile Fiction",
+        "Nonfiction",
+        "Self-help",
+    ],
+    OTHER: ["None", "By rating", "By editions", "By newest", "By latest"],
+};
